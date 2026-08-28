@@ -72,10 +72,9 @@
             </div>
         </div>
 
-        <!-- Controls & Advanced Settings Panel (Competitor Killer Features) -->
+        <!-- Controls & Advanced Settings Panel -->
         <div id="controlsPanel" class="glass-card rounded-2xl p-6 mt-8 hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <!-- Quality Slider -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold text-slate-300" id="qualityLabel">مستوى الجودة:</label>
@@ -83,8 +82,6 @@
                     </div>
                     <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
-                
-                <!-- Output Format Selector -->
                 <div>
                     <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabel">الصيغة المستهدفة:</label>
                     <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
@@ -94,8 +91,6 @@
                         <option value="image/jpeg">JPG (متوافق عالمياً)</option>
                     </select>
                 </div>
-
-                <!-- Resize Scale -->
                 <div>
                     <label class="text-xs font-bold text-slate-300 block mb-2" id="resizeLabel">تصغير الأبعاد (نسبة مئوية):</label>
                     <select id="resizeScale" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
@@ -116,15 +111,75 @@
                     <i class="fa-solid fa-download"></i> <span id="downloadAllText">تحميل الكل (ZIP)</span>
                 </button>
             </div>
-            <div id="imagesList" class="space-y-3">
-                <!-- Dynamic Items Inserted Here -->
+            <div id="imagesList" class="space-y-3"></div>
+        </div>
+
+        <!-- Features Grid Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat1Title">خصوصية وأمان 100%</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat1Desc">تتم المعالجة بالكامل داخل متصفحك محلياً، ولا يتم رفع أي صورة نهائياً لأي سيرفر خارجي.</p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat2Title">سرعة فائقة بلا حدود</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat2Desc">اضغط مئات الصور دفعة واحدة (Batch Processing) بدون حدود أو انتظار طوابير الرفع.</p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat3Title">صيغ ويب حديثة</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">دعم كامل لتحويل الصور إلى WebP و AVIF لتقليص الحجم لأقصى درجة ممكنة مع الحفاظ على الجودة.</p>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="mt-20 text-center">
+            <h3 class="text-2xl font-extrabold mb-8 text-slate-200" id="howTitle">كيف تعمل الأداة في 3 خطوات بسيطة؟</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <span class="text-cyan-400 font-black text-3xl block mb-2">01</span>
+                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step1Title">اختر صورك</h5>
+                    <p class="text-xs text-slate-400" id="step1Desc">اسحب وأفلت الصور أو اخترها من جهازك مباشرة.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <span class="text-cyan-400 font-black text-3xl block mb-2">02</span>
+                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step2Title">حدد الإعدادات</h5>
+                    <p class="text-xs text-slate-400" id="step2Desc">اختر نسبة الضغط، الصيغة، أو الأبعاد إن أردت.</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <span class="text-cyan-400 font-black text-3xl block mb-2">03</span>
+                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step3Title">حمل النتائج</h5>
+                    <p class="text-xs text-slate-400" id="step3Desc">قم بتحميل الصور منفردة أو بملف ZIP واحد بضغطة.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-20 max-w-3xl mx-auto">
+            <h3 class="text-2xl font-extrabold mb-6 text-center text-slate-200" id="faqTitle">الأسئلة الشائعة</h3>
+            <div class="space-y-4">
+                <div class="glass-card p-5 rounded-2xl">
+                    <h5 class="font-bold text-sm text-cyan-400 mb-1" id="faq1Q">هل الخدمة مجانية بالكامل؟</h5>
+                    <p class="text-xs text-slate-300 leading-relaxed" id="faq1A">نعم، الأداة مجانية تماماً وبدون أي اشتراكات أو قيود على عدد الصور.</p>
+                </div>
+                <div class="glass-card p-5 rounded-2xl">
+                    <h5 class="font-bold text-sm text-cyan-400 mb-1" id="faq2Q">هل يتم حفظ صوري على خوادم الموقع؟</h5>
+                    <p class="text-xs text-slate-300 leading-relaxed" id="faq2A">أبداً! تتم المعالجة بالكامل محلياً داخل متصفحك عبر تقنية JavaScript، وصورك لا تغادر جهازك أبداً.</p>
+                </div>
             </div>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 glass-card border-t border-slate-800 text-center text-xs text-slate-400">
+    <footer class="w-full py-6 glass-card border-t border-slate-800 text-center text-xs text-slate-400 mt-20">
         <p id="footerText">© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.</p>
     </footer>
 
@@ -141,9 +196,27 @@
                 selectBtnText: "اختر الصور الآن",
                 qualityLabel: "مستوى الجودة:",
                 formatLabel: "الصيغة المستهدفة:",
-                resizeLabel: "تصغير الأبعاد (نسبة مئوية):",
+                resizeLabel: "تصغير الأبعاد:",
                 resultsTitle: "الصور المضغوطة:",
                 downloadAllText: "تحميل الكل (ZIP)",
+                feat1Title: "خصوصية وأمان 100%",
+                feat1Desc: "تتم المعالجة بالكامل داخل متصفحك محلياً، ولا يتم رفع أي صورة نهائياً لأي سيرفر خارجي.",
+                feat2Title: "سرعة فائقة بلا حدود",
+                feat2Desc: "اضغط مئات الصور دفعة واحدة (Batch Processing) بدون حدود أو انتظار طوابير الرفع.",
+                feat3Title: "صيغ ويب حديثة",
+                feat3Desc: "دعم كامل لتحويل الصور إلى WebP و AVIF لتقليص الحجم لأقصى درجة ممكنة مع الحفاظ على الجودة.",
+                howTitle: "كيف تعمل الأداة في 3 خطوات بسيطة؟",
+                step1Title: "اختر صورك",
+                step1Desc: "اسحب وأفلت الصور أو اخترها من جهازك مباشرة.",
+                step2Title: "حدد الإعدادات",
+                step2Desc: "اختر نسبة الضغط، الصيغة، أو الأبعاد إن أردت.",
+                step3Title: "حمل النتائج",
+                step3Desc: "قم بتحميل الصور منفردة أو بملف ZIP واحد بضغطة.",
+                faqTitle: "الأسئلة الشائعة",
+                faq1Q: "هل الخدمة مجانية بالكامل؟",
+                faq1A: "نعم، الأداة مجانية تماماً وبدون أي اشتراكات أو قيود على عدد الصور.",
+                faq2Q: "هل يتم حفظ صوري على خوادم الموقع؟",
+                faq2A: "أبداً! تتم المعالجة بالكامل محلياً داخل متصفحك عبر تقنية JavaScript، وصورك لا تغادر جهازك أبداً.",
                 footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%."
             },
             en: {
@@ -159,6 +232,24 @@
                 resizeLabel: "Resize Scale:",
                 resultsTitle: "Compressed Images:",
                 downloadAllText: "Download All (ZIP)",
+                feat1Title: "100% Privacy & Security",
+                feat1Desc: "Processing happens entirely inside your browser. No images are ever uploaded to any external server.",
+                feat2Title: "Blazing Fast & Unlimited",
+                feat2Desc: "Compress hundreds of images in batch with zero waiting time or upload queues.",
+                feat3Title: "Next-Gen Formats",
+                feat3Desc: "Full support for WebP and AVIF conversion to achieve maximum compression ratio without losing quality.",
+                howTitle: "How It Works in 3 Simple Steps",
+                step1Title: "Select Images",
+                step1Desc: "Drag and drop your images or browse from your device.",
+                step2Title: "Set Preferences",
+                step2Desc: "Choose compression level, target format, or resize scale if needed.",
+                step3Title: "Download Results",
+                step3Desc: "Download individual compressed images or get them all in a single ZIP file.",
+                faqTitle: "Frequently Asked Questions",
+                faq1Q: "Is the service completely free?",
+                faq1A: "Yes, the tool is 100% free with no subscriptions or limits on image counts.",
+                faq2Q: "Are my images stored on your servers?",
+                faq2A: "Never! Processing runs entirely client-side using JavaScript, ensuring your images never leave your device.",
                 footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing."
             }
         };
@@ -254,7 +345,7 @@
                                 else if (format === 'image/png') ext = '.png';
 
                                 const itemObj = {
-                                    name: file.name.substring(0, file.name.lastIndexOf('.')) || file.name + ext,
+                                    name: file.name.substring(0, file.name.lastIndexOf('.')) || file.name,
                                     blob: blob,
                                     url: compressedDataUrl
                                 };

@@ -4,56 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Online Image Compressor - Reduce Image Size Instantly</title>
-    <!-- Tailwind CSS for modern styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="description" content="Free online tool to compress and reduce image file size without losing quality. Fast, secure, and works directly in your browser.">
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between; }
+        header { background: #fff; padding: 16px 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; flex-grow: 1; width: 100%; box-sizing: border-box; }
+        h1 { color: #2563eb; font-size: 24px; margin: 0; }
+        .card { background: #fff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 40px; text-align: center; cursor: pointer; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-top: 24px; }
+        .card input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        .btn { background: #2563eb; color: #fff; padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #1d4ed8; }
+        .hidden { display: none; }
+        .result { background: #fff; border-radius: 16px; padding: 24px; margin-top: 24px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 24px; text-align: center; font-size: 13px; color: #64748b; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between font-sans">
-
-    <!-- Header -->
-    <header class="bg-white shadow-sm py-4 px-6">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-blue-600">ImageCompress<span class="text-slate-700">Pro</span></h1>
-            <span class="text-xs bg-blue-100 text-blue-700 font-semibold px-2.5 py-1 rounded-full">100% Free & Secure</span>
+<body>
+    <header>
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <h1>ImageCompress<span style="color: #334155;">Pro</span></h1>
+            <span style="font-size: 12px; background: #eff6ff; color: #1d4ed8; font-weight: 600; padding: 6px 12px; border-radius: 9999px;">100% Free & Secure</span>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-3xl mx-auto px-4 py-10 flex-grow w-full">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Free Online Image Compressor</h2>
-            <p class="text-slate-600">Upload your JPEG, PNG, or WebP images and reduce their file size instantly.</p>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">Free Online Image Compressor</h2>
+            <p style="color: #64748b;">Upload your JPEG, PNG, or WebP images and reduce their file size instantly.</p>
         </div>
 
-        <!-- Upload Box -->
-        <div class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:border-blue-500 transition cursor-pointer relative shadow-sm" id="drop-zone">
-            <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-            <div class="flex flex-col items-center justify-center space-y-3">
-                <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                <p class="text-lg font-medium text-slate-700">Drag & drop your images here, or <span class="text-blue-600 underline">browse</span></p>
-                <p class="text-xs text-slate-400">Supports JPG, PNG, WebP</p>
+        <div class="card">
+            <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp">
+            <div>
+                <p style="font-size: 18px; font-weight: 500; color: #334155;">Drag & drop your images here, or <span style="color: #2563eb; text-decoration: underline;">browse</span></p>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Supports JPG, PNG, WebP</p>
             </div>
         </div>
 
-        <!-- Result Section (Hidden by default) -->
-        <div id="result-container" class="hidden mt-8 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-            <h3 class="text-lg font-bold text-slate-800 mb-4">Compressed Result</h3>
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-xl">
+        <div id="result-container" class="result hidden">
+            <h3 style="margin-top: 0; font-size: 18px;">Compressed Result</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 16px; border-radius: 12px; flex-wrap: gap; gap: 15px;">
                 <div>
-                    <p class="text-sm font-medium text-slate-600">Original Size: <span id="original-size" class="font-bold text-slate-900">0 KB</span></p>
-                    <p class="text-sm font-medium text-slate-600">New Size: <span id="compressed-size" class="font-bold text-green-600">0 KB</span></p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #475569;">Original Size: <span id="original-size" style="font-weight: bold; color: #0f172a;">0 KB</span></p>
+                    <p style="margin: 0; font-size: 14px; color: #475569;">New Size: <span id="compressed-size" style="font-weight: bold; color: #16a34a;">0 KB</span></p>
                 </div>
-                <a id="download-btn" href="#" download="compressed-image.jpg" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-xl transition shadow-md w-full sm:w-auto text-center">Download Compressed Image</a>
+                <a id="download-btn" href="#" download="compressed-image.jpg" class="btn">Download Compressed Image</a>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <footer>
         <p>&copy; 2026 ImageCompressPro. All rights reserved. Processed safely in your browser.</p>
     </footer>
 
-    <!-- JavaScript Logic -->
     <script>
         const imageInput = document.getElementById('image-input');
         const resultContainer = document.getElementById('result-container');
@@ -65,7 +67,6 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            // Show original size
             originalSizeElem.textContent = (file.size / 1024).toFixed(1) + ' KB';
 
             const reader = new FileReader();
@@ -77,24 +78,19 @@
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
 
-                    // Keep original dimensions
                     canvas.width = img.width;
                     canvas.height = img.height;
                     ctx.drawImage(img, 0, 0);
 
-                    // Compress to JPEG with 0.7 quality (70%)
                     const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
-                    // Calculate compressed size approximately
                     const head = 'data:image/jpeg;base64,';
                     const compressedSize = Math.round((compressedDataUrl.length - head.length) * 3/4 / 1024);
                     compressedSizeElem.textContent = compressedSize + ' KB';
 
-                    // Setup download button
                     downloadBtn.href = compressedDataUrl;
                     downloadBtn.download = 'compressed-' + file.name.replace(/\.[^/.]+$/, "") + '.jpg';
 
-                    // Show result box
                     resultContainer.classList.remove('hidden');
                 }
             }

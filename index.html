@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Pro Image Compress - أداة ضغط الصور الاحترافية</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- JSZip for Batch Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
@@ -16,7 +19,7 @@
             min-height: 100vh;
         }
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.75);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -24,9 +27,10 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
+    <!-- Header / Navbar -->
     <header class="w-full py-4 px-6 glass-card border-b border-slate-800 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center space-x-3 space-x-reverse">
-            <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/30">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/30 flex items-center justify-center">
                 <i class="fa-solid fa-bolt text-white text-xl"></i>
             </div>
             <div>
@@ -35,19 +39,23 @@
             </div>
         </div>
         
-        <div class="flex items-center space-x-2 space-x-reverse">
+        <!-- Language Selector -->
+        <div class="flex items-center gap-2">
             <button onclick="changeLanguage('ar')" id="btnAr" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition">العربية</button>
             <button onclick="changeLanguage('en')" id="btnEn" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition">English</button>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-10 max-w-5xl">
         
+        <!-- Hero Section -->
         <div class="text-center mb-10">
             <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight" id="heroTitle">اضغط صورك بذكاء دون أن تفقد جودتها</h2>
             <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto" id="heroSubtitle">معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.</p>
         </div>
 
+        <!-- Dropzone Box -->
         <div id="dropZone" class="glass-card rounded-3xl p-8 md:p-12 text-center border-2 border-dashed border-cyan-500/40 hover:border-cyan-400 transition cursor-pointer relative group shadow-2xl">
             <input type="file" id="fileInput" multiple accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
             <div class="flex flex-col items-center justify-center space-y-4">
@@ -56,7 +64,7 @@
                 </div>
                 <div>
                     <h3 class="text-xl font-bold mb-1" id="dropTitle">اسحب وأفلت صورك هنا، أو اضغط للاختيار</h3>
-                    <p class="text-xs text-slate-400" id="dropDesc">تدعم صيغ PNG, JPG, JPEG, WebP (بكميات غير محدودة)</p>
+                    <p class="text-xs text-slate-400" id="dropDesc">تدعم صيغ PNG, JPG, JPEG, WebP, AVIF (بكميات غير محدودة)</p>
                 </div>
                 <button class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
                     <span id="selectBtnText">اختر الصور الآن</span>
@@ -64,27 +72,43 @@
             </div>
         </div>
 
+        <!-- Controls & Advanced Settings Panel (Competitor Killer Features) -->
         <div id="controlsPanel" class="glass-card rounded-2xl p-6 mt-8 hidden">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="w-full md:w-1/2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <!-- Quality Slider -->
+                <div>
                     <div class="flex justify-between items-center mb-2">
-                        <label class="text-sm font-bold text-slate-300" id="qualityLabel">مستوى الجودة والضغط:</label>
-                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-sm">80%</span>
+                        <label class="text-xs font-bold text-slate-300" id="qualityLabel">مستوى الجودة:</label>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
                     </div>
                     <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
                 
-                <div class="w-full md:w-1/3">
-                    <label class="text-sm font-bold text-slate-300 block mb-2" id="formatLabel">الصيغة المستهدفة:</label>
-                    <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-400">
+                <!-- Output Format Selector -->
+                <div>
+                    <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabel">الصيغة المستهدفة:</label>
+                    <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
                         <option value="original">نفس الصيغة الأصلية</option>
-                        <option value="image/webp">WebP (أفضل ضغط وسرعة)</option>
+                        <option value="image/webp">WebP (الأفضل للويب)</option>
+                        <option value="image/avif">AVIF (ضغط فائق للغاية)</option>
                         <option value="image/jpeg">JPG (متوافق عالمياً)</option>
+                    </select>
+                </div>
+
+                <!-- Resize Scale -->
+                <div>
+                    <label class="text-xs font-bold text-slate-300 block mb-2" id="resizeLabel">تصغير الأبعاد (نسبة مئوية):</label>
+                    <select id="resizeScale" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="1">100% (نفس الأبعاد)</option>
+                        <option value="0.75">75% (تصغير 25%)</option>
+                        <option value="0.5">50% (نصف الحجم)</option>
+                        <option value="0.25">25% (ربع الحجم)</option>
                     </select>
                 </div>
             </div>
         </div>
 
+        <!-- Results Section -->
         <div id="resultsSection" class="mt-8 space-y-4 hidden">
             <div class="flex justify-between items-center px-2">
                 <h3 class="text-lg font-bold text-slate-200" id="resultsTitle">الصور المضغوطة:</h3>
@@ -93,17 +117,19 @@
                 </button>
             </div>
             <div id="imagesList" class="space-y-3">
-                </div>
+                <!-- Dynamic Items Inserted Here -->
+            </div>
         </div>
 
     </main>
 
+    <!-- Footer -->
     <footer class="w-full py-6 glass-card border-t border-slate-800 text-center text-xs text-slate-400">
         <p id="footerText">© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.</p>
     </footer>
 
+    <!-- JavaScript Logic -->
     <script>
-        // Translations Dictionary
         const translations = {
             ar: {
                 pageTitle: "Pro Image Compress - أداة ضغط الصور الاحترافية",
@@ -111,10 +137,11 @@
                 heroTitle: "اضغط صورك بذكاء دون أن تفقد جودتها",
                 heroSubtitle: "معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.",
                 dropTitle: "اسحب وأفلت صورك هنا، أو اضغط للاختيار",
-                dropDesc: "تدعم صيغ PNG, JPG, JPEG, WebP (بكميات غير محدودة)",
+                dropDesc: "تدعم صيغ PNG, JPG, JPEG, WebP, AVIF (بكميات غير محدودة)",
                 selectBtnText: "اختر الصور الآن",
-                qualityLabel: "مستوى الجودة والضغط:",
+                qualityLabel: "مستوى الجودة:",
                 formatLabel: "الصيغة المستهدفة:",
+                resizeLabel: "تصغير الأبعاد (نسبة مئوية):",
                 resultsTitle: "الصور المضغوطة:",
                 downloadAllText: "تحميل الكل (ZIP)",
                 footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%."
@@ -125,10 +152,11 @@
                 heroTitle: "Compress Your Images Smartly Without Losing Quality",
                 heroSubtitle: "100% Client-side processing in your browser with absolute privacy and zero server uploads.",
                 dropTitle: "Drag & drop your images here, or click to browse",
-                dropDesc: "Supports PNG, JPG, JPEG, WebP (Unlimited batch)",
+                dropDesc: "Supports PNG, JPG, JPEG, WebP, AVIF (Unlimited batch)",
                 selectBtnText: "Select Images",
-                qualityLabel: "Quality & Compression Level:",
+                qualityLabel: "Quality Level:",
                 formatLabel: "Output Format:",
+                resizeLabel: "Resize Scale:",
                 resultsTitle: "Compressed Images:",
                 downloadAllText: "Download All (ZIP)",
                 footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing."
@@ -149,7 +177,6 @@
             }
         }
 
-        // Processing Logic
         const fileInput = document.getElementById('fileInput');
         const controlsPanel = document.getElementById('controlsPanel');
         const resultsSection = document.getElementById('resultsSection');
@@ -157,6 +184,7 @@
         const qualityRange = document.getElementById('qualityRange');
         const qualityVal = document.getElementById('qualityVal');
         const formatSelect = document.getElementById('formatSelect');
+        const resizeScale = document.getElementById('resizeScale');
         const downloadAllBtn = document.getElementById('downloadAllBtn');
 
         let processedFilesData = [];
@@ -199,19 +227,20 @@
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
                         
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
+                        const scale = parseFloat(resizeScale.value);
+                        canvas.width = Math.round(img.width * scale);
+                        canvas.height = Math.round(img.height * scale);
+                        
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                         const quality = parseInt(qualityRange.value) / 100;
                         let format = formatSelect.value;
                         if (format === 'original') {
-                            format = file.type;
+                            format = file.type || 'image/jpeg';
                         }
 
                         const compressedDataUrl = canvas.toDataURL(format, quality);
                         
-                        // Convert DataURL to Blob for size calculation & download
                         fetch(compressedDataUrl)
                             .then(res => res.blob())
                             .then(blob => {
@@ -219,23 +248,29 @@
                                 const compressedSize = blob.size;
                                 const savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
 
+                                let ext = '.jpg';
+                                if (format === 'image/webp') ext = '.webp';
+                                else if (format === 'image/avif') ext = '.avif';
+                                else if (format === 'image/png') ext = '.png';
+
                                 const itemObj = {
-                                    name: file.name.substring(0, file.name.lastIndexOf('.')) + (format === 'image/webp' ? '.webp' : format === 'image/jpeg' ? '.jpg' : '.png'),
+                                    name: file.name.substring(0, file.name.lastIndexOf('.')) || file.name + ext,
                                     blob: blob,
                                     url: compressedDataUrl
                                 };
+                                itemObj.name = itemObj.name.replace(/\.[^/.]+$/, "") + ext;
                                 processedFilesData.push(itemObj);
 
                                 const itemHTML = `
                                     <div class="glass-card rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-750">
-                                        <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto">
+                                        <div class="flex items-center gap-3 w-full md:w-auto">
                                             <img src="${compressedDataUrl}" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
                                             <div>
                                                 <h4 class="font-bold text-sm text-slate-200 truncate max-w-xs">${file.name}</h4>
                                                 <p class="text-xs text-slate-400">${formatBytes(originalSize)} ➔ <span class="text-emerald-400 font-bold">${formatBytes(compressedSize)}</span></p>
                                             </div>
                                         </div>
-                                        <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto justify-between md:justify-end">
+                                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
                                             <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold rounded-lg">وفرت ${savings}%</span>
                                             <a href="${compressedDataUrl}" download="${itemObj.name}" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:opacity-90 transition">
                                                 تحميل
@@ -251,13 +286,12 @@
             });
         }
 
-        // Batch Download ZIP
         downloadAllBtn.addEventListener('click', async () => {
             if (processedFilesData.length === 0) return;
             const zip = new JSZip();
             const folder = zip.folder("compressed_images");
 
-            processedFilesData.forEach((item, index) => {
+            processedFilesData.forEach((item) => {
                 folder.file(item.name, item.blob);
             });
 

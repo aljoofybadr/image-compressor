@@ -1,99 +1,271 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online Image Compressor - Reduce Image Size Instantly</title>
+    <title id="pageTitle">Pro Image Compress - أداة ضغط الصور الاحترافية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between; }
-        header { background: #fff; padding: 16px 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; flex-grow: 1; width: 100%; box-sizing: border-box; }
-        h1 { color: #2563eb; font-size: 24px; margin: 0; }
-        .card { background: #fff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 40px; text-align: center; cursor: pointer; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-top: 24px; }
-        .card input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-        .btn { background: #2563eb; color: #fff; padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn:hover { background: #1d4ed8; }
-        .hidden { display: none; }
-        .result { background: #fff; border-radius: 16px; padding: 24px; margin-top: 24px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 24px; text-align: center; font-size: 13px; color: #64748b; }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
-<body>
-    <header>
-        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-            <h1>ImageCompress<span style="color: #334155;">Pro</span></h1>
-            <span style="font-size: 12px; background: #eff6ff; color: #1d4ed8; font-weight: 600; padding: 6px 12px; border-radius: 9999px;">100% Free & Secure</span>
+<body class="flex flex-col min-h-screen">
+
+    <header class="w-full py-4 px-6 glass-card border-b border-slate-800 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/30">
+                <i class="fa-solid fa-bolt text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">ProImageCompress</h1>
+                <p class="text-xs text-slate-400" id="subHeaderBrand">أسرع وأأمن أداة لضغط الصور مجاناً</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <button onclick="changeLanguage('ar')" id="btnAr" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition">العربية</button>
+            <button onclick="changeLanguage('en')" id="btnEn" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition">English</button>
         </div>
     </header>
 
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">Free Online Image Compressor</h2>
-            <p style="color: #64748b;">Upload your JPEG, PNG, or WebP images and reduce their file size instantly.</p>
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-5xl">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight" id="heroTitle">اضغط صورك بذكاء دون أن تفقد جودتها</h2>
+            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto" id="heroSubtitle">معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.</p>
         </div>
 
-        <div class="card">
-            <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp">
-            <div>
-                <p style="font-size: 18px; font-weight: 500; color: #334155;">Drag & drop your images here, or <span style="color: #2563eb; text-decoration: underline;">browse</span></p>
-                <p style="font-size: 12px; color: #94a3b8; margin-top: 8px;">Supports JPG, PNG, WebP</p>
-            </div>
-        </div>
-
-        <div id="result-container" class="result hidden">
-            <h3 style="margin-top: 0; font-size: 18px;">Compressed Result</h3>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 16px; border-radius: 12px; flex-wrap: gap; gap: 15px;">
-                <div>
-                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #475569;">Original Size: <span id="original-size" style="font-weight: bold; color: #0f172a;">0 KB</span></p>
-                    <p style="margin: 0; font-size: 14px; color: #475569;">New Size: <span id="compressed-size" style="font-weight: bold; color: #16a34a;">0 KB</span></p>
+        <div id="dropZone" class="glass-card rounded-3xl p-8 md:p-12 text-center border-2 border-dashed border-cyan-500/40 hover:border-cyan-400 transition cursor-pointer relative group shadow-2xl">
+            <input type="file" id="fileInput" multiple accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <div class="w-20 h-20 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-400 text-3xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
                 </div>
-                <a id="download-btn" href="#" download="compressed-image.jpg" class="btn">Download Compressed Image</a>
+                <div>
+                    <h3 class="text-xl font-bold mb-1" id="dropTitle">اسحب وأفلت صورك هنا، أو اضغط للاختيار</h3>
+                    <p class="text-xs text-slate-400" id="dropDesc">تدعم صيغ PNG, JPG, JPEG, WebP (بكميات غير محدودة)</p>
+                </div>
+                <button class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
+                    <span id="selectBtnText">اختر الصور الآن</span>
+                </button>
             </div>
         </div>
-    </div>
 
-    <footer>
-        <p>&copy; 2026 ImageCompressPro. All rights reserved. Processed safely in your browser.</p>
+        <div id="controlsPanel" class="glass-card rounded-2xl p-6 mt-8 hidden">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="w-full md:w-1/2">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-bold text-slate-300" id="qualityLabel">مستوى الجودة والضغط:</label>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-sm">80%</span>
+                    </div>
+                    <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                </div>
+                
+                <div class="w-full md:w-1/3">
+                    <label class="text-sm font-bold text-slate-300 block mb-2" id="formatLabel">الصيغة المستهدفة:</label>
+                    <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <option value="original">نفس الصيغة الأصلية</option>
+                        <option value="image/webp">WebP (أفضل ضغط وسرعة)</option>
+                        <option value="image/jpeg">JPG (متوافق عالمياً)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsSection" class="mt-8 space-y-4 hidden">
+            <div class="flex justify-between items-center px-2">
+                <h3 class="text-lg font-bold text-slate-200" id="resultsTitle">الصور المضغوطة:</h3>
+                <button id="downloadAllBtn" class="px-5 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-500/20 hover:opacity-90 transition flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> <span id="downloadAllText">تحميل الكل (ZIP)</span>
+                </button>
+            </div>
+            <div id="imagesList" class="space-y-3">
+                </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full py-6 glass-card border-t border-slate-800 text-center text-xs text-slate-400">
+        <p id="footerText">© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.</p>
     </footer>
 
     <script>
-        const imageInput = document.getElementById('image-input');
-        const resultContainer = document.getElementById('result-container');
-        const originalSizeElem = document.getElementById('original-size');
-        const compressedSizeElem = document.getElementById('compressed-size');
-        const downloadBtn = document.getElementById('download-btn');
-
-        imageInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            originalSizeElem.textContent = (file.size / 1024).toFixed(1) + ' KB';
-
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function(e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
-                    const head = 'data:image/jpeg;base64,';
-                    const compressedSize = Math.round((compressedDataUrl.length - head.length) * 3/4 / 1024);
-                    compressedSizeElem.textContent = compressedSize + ' KB';
-
-                    downloadBtn.href = compressedDataUrl;
-                    downloadBtn.download = 'compressed-' + file.name.replace(/\.[^/.]+$/, "") + '.jpg';
-
-                    resultContainer.classList.remove('hidden');
-                }
+        // Translations Dictionary
+        const translations = {
+            ar: {
+                pageTitle: "Pro Image Compress - أداة ضغط الصور الاحترافية",
+                subHeaderBrand: "أسرع وأأمن أداة لضغط الصور مجاناً",
+                heroTitle: "اضغط صورك بذكاء دون أن تفقد جودتها",
+                heroSubtitle: "معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.",
+                dropTitle: "اسحب وأفلت صورك هنا، أو اضغط للاختيار",
+                dropDesc: "تدعم صيغ PNG, JPG, JPEG, WebP (بكميات غير محدودة)",
+                selectBtnText: "اختر الصور الآن",
+                qualityLabel: "مستوى الجودة والضغط:",
+                formatLabel: "الصيغة المستهدفة:",
+                resultsTitle: "الصور المضغوطة:",
+                downloadAllText: "تحميل الكل (ZIP)",
+                footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%."
+            },
+            en: {
+                pageTitle: "Pro Image Compress - Professional Image Compressor",
+                subHeaderBrand: "Fastest & Secure Free Image Compressor",
+                heroTitle: "Compress Your Images Smartly Without Losing Quality",
+                heroSubtitle: "100% Client-side processing in your browser with absolute privacy and zero server uploads.",
+                dropTitle: "Drag & drop your images here, or click to browse",
+                dropDesc: "Supports PNG, JPG, JPEG, WebP (Unlimited batch)",
+                selectBtnText: "Select Images",
+                qualityLabel: "Quality & Compression Level:",
+                formatLabel: "Output Format:",
+                resultsTitle: "Compressed Images:",
+                downloadAllText: "Download All (ZIP)",
+                footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing."
             }
+        };
+
+        function changeLanguage(lang) {
+            const html = document.getElementById('htmlRoot');
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            document.getElementById('btnAr').className = lang === 'ar' ? 'px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition' : 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition';
+            document.getElementById('btnEn').className = lang === 'en' ? 'px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition' : 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition';
+
+            for (let key in translations[lang]) {
+                const el = document.getElementById(key);
+                if (el) el.innerText = translations[lang][key];
+            }
+        }
+
+        // Processing Logic
+        const fileInput = document.getElementById('fileInput');
+        const controlsPanel = document.getElementById('controlsPanel');
+        const resultsSection = document.getElementById('resultsSection');
+        const imagesList = document.getElementById('imagesList');
+        const qualityRange = document.getElementById('qualityRange');
+        const qualityVal = document.getElementById('qualityVal');
+        const formatSelect = document.getElementById('formatSelect');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+
+        let processedFilesData = [];
+
+        qualityRange.addEventListener('input', (e) => {
+            qualityVal.innerText = e.target.value + '%';
+        });
+
+        fileInput.addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length === 0) return;
+
+            controlsPanel.classList.remove('hidden');
+            resultsSection.classList.remove('hidden');
+            imagesList.innerHTML = '';
+            processedFilesData = [];
+
+            for (let file of files) {
+                await processImage(file);
+            }
+        });
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        async function processImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+
+                        const quality = parseInt(qualityRange.value) / 100;
+                        let format = formatSelect.value;
+                        if (format === 'original') {
+                            format = file.type;
+                        }
+
+                        const compressedDataUrl = canvas.toDataURL(format, quality);
+                        
+                        // Convert DataURL to Blob for size calculation & download
+                        fetch(compressedDataUrl)
+                            .then(res => res.blob())
+                            .then(blob => {
+                                const originalSize = file.size;
+                                const compressedSize = blob.size;
+                                const savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+
+                                const itemObj = {
+                                    name: file.name.substring(0, file.name.lastIndexOf('.')) + (format === 'image/webp' ? '.webp' : format === 'image/jpeg' ? '.jpg' : '.png'),
+                                    blob: blob,
+                                    url: compressedDataUrl
+                                };
+                                processedFilesData.push(itemObj);
+
+                                const itemHTML = `
+                                    <div class="glass-card rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-750">
+                                        <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto">
+                                            <img src="${compressedDataUrl}" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
+                                            <div>
+                                                <h4 class="font-bold text-sm text-slate-200 truncate max-w-xs">${file.name}</h4>
+                                                <p class="text-xs text-slate-400">${formatBytes(originalSize)} ➔ <span class="text-emerald-400 font-bold">${formatBytes(compressedSize)}</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto justify-between md:justify-end">
+                                            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold rounded-lg">وفرت ${savings}%</span>
+                                            <a href="${compressedDataUrl}" download="${itemObj.name}" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:opacity-90 transition">
+                                                تحميل
+                                            </a>
+                                        </div>
+                                    </div>
+                                `;
+                                imagesList.insertAdjacentHTML('beforeend', itemHTML);
+                                resolve();
+                            });
+                    };
+                };
+            });
+        }
+
+        // Batch Download ZIP
+        downloadAllBtn.addEventListener('click', async () => {
+            if (processedFilesData.length === 0) return;
+            const zip = new JSZip();
+            const folder = zip.folder("compressed_images");
+
+            processedFilesData.forEach((item, index) => {
+                folder.file(item.name, item.blob);
+            });
+
+            const content = await zip.generateAsync({ type: "blob" });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = "ProImageCompress_Batch.zip";
+            link.click();
         });
     </script>
 </body>

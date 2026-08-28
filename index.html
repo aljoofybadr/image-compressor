@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Image Compressor - Reduce Image Size Instantly</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Free online tool to compress and reduce image file size without losing quality. Fast, secure, and works directly in your browser.">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm py-4 px-6">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-blue-600">ImageCompress<span class="text-slate-700">Pro</span></h1>
+            <span class="text-xs bg-blue-100 text-blue-700 font-semibold px-2.5 py-1 rounded-full">100% Free & Secure</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-4 py-10 flex-grow w-full">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Free Online Image Compressor</h2>
+            <p class="text-slate-600">Upload your JPEG, PNG, or WebP images and reduce their file size instantly.</p>
+        </div>
+
+        <!-- Upload Box -->
+        <div class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:border-blue-500 transition cursor-pointer relative shadow-sm" id="drop-zone">
+            <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+            <div class="flex flex-col items-center justify-center space-y-3">
+                <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                <p class="text-lg font-medium text-slate-700">Drag & drop your images here, or <span class="text-blue-600 underline">browse</span></p>
+                <p class="text-xs text-slate-400">Supports JPG, PNG, WebP</p>
+            </div>
+        </div>
+
+        <!-- Result Section (Hidden by default) -->
+        <div id="result-container" class="hidden mt-8 bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">Compressed Result</h3>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-xl">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Original Size: <span id="original-size" class="font-bold text-slate-900">0 KB</span></p>
+                    <p class="text-sm font-medium text-slate-600">New Size: <span id="compressed-size" class="font-bold text-green-600">0 KB</span></p>
+                </div>
+                <a id="download-btn" href="#" download="compressed-image.jpg" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-xl transition shadow-md w-full sm:w-auto text-center">Download Compressed Image</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 ImageCompressPro. All rights reserved. Processed safely in your browser.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const resultContainer = document.getElementById('result-container');
+        const originalSizeElem = document.getElementById('original-size');
+        const compressedSizeElem = document.getElementById('compressed-size');
+        const downloadBtn = document.getElementById('download-btn');
+
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Show original size
+            originalSizeElem.textContent = (file.size / 1024).toFixed(1) + ' KB';
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    // Keep original dimensions
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    // Compress to JPEG with 0.7 quality (70%)
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                    // Calculate compressed size approximately
+                    const head = 'data:image/jpeg;base64,';
+                    const compressedSize = Math.round((compressedDataUrl.length - head.length) * 3/4 / 1024);
+                    compressedSizeElem.textContent = compressedSize + ' KB';
+
+                    // Setup download button
+                    downloadBtn.href = compressedDataUrl;
+                    downloadBtn.download = 'compressed-' + file.name.replace(/\.[^/.]+$/, "") + '.jpg';
+
+                    // Show result box
+                    resultContainer.classList.remove('hidden');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

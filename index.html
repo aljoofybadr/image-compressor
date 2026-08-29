@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlRoot">
+<html lang="en" dir="ltr" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Pro Image Compress - أداة ضغط الصور الاحترافية</title>
+    <title id="pageTitle">Pro Image Compress - Professional & Secure Image Compressor</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -11,9 +11,9 @@
     <!-- JSZip for Batch Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
             color: #f8fafc;
             min-height: 100vh;
@@ -28,21 +28,26 @@
 <body class="flex flex-col min-h-screen">
 
     <!-- Header / Navbar -->
-    <header class="w-full py-4 px-6 glass-card border-b border-slate-800 flex justify-between items-center sticky top-0 z-50">
+    <header class="w-full py-4 px-6 glass-card border-b border-slate-800 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-4">
         <div class="flex items-center gap-3">
             <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/30 flex items-center justify-center">
                 <i class="fa-solid fa-bolt text-white text-xl"></i>
             </div>
             <div>
                 <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">ProImageCompress</h1>
-                <p class="text-xs text-slate-400" id="subHeaderBrand">أسرع وأأمن أداة لضغط الصور مجاناً</p>
+                <p class="text-xs text-slate-400" id="subHeaderBrand">Fastest & Secure Free Image Compressor</p>
             </div>
         </div>
         
         <!-- Language Selector -->
-        <div class="flex items-center gap-2">
-            <button onclick="changeLanguage('ar')" id="btnAr" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition">العربية</button>
-            <button onclick="changeLanguage('en')" id="btnEn" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition">English</button>
+        <div class="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
+            <button onclick="setLanguage('en')" id="btn-en" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">EN</button>
+            <button onclick="setLanguage('ar')" id="btn-ar" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">العربية</button>
+            <button onclick="setLanguage('zh')" id="btn-zh" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">中文</button>
+            <button onclick="setLanguage('es')" id="btn-es" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">ES</button>
+            <button onclick="setLanguage('fr')" id="btn-fr" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">FR</button>
+            <button onclick="setLanguage('de')" id="btn-de" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">DE</button>
+            <button onclick="setLanguage('tr')" id="btn-tr" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">TR</button>
         </div>
     </header>
 
@@ -51,8 +56,9 @@
         
         <!-- Hero Section -->
         <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight" id="heroTitle">اضغط صورك بذكاء دون أن تفقد جودتها</h2>
-            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto" id="heroSubtitle">معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.</p>
+            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/20 inline-block mb-4" id="heroBadge">🔒 100% Secure Local Processing - Zero Server Uploads</span>
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight" id="heroTitle">Compress Your Images Smartly Without Losing Quality</h2>
+            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto" id="heroSubtitle">The fastest and most secure tool globally to batch compress hundreds of images with zero restrictions or ads.</p>
         </div>
 
         <!-- Dropzone Box -->
@@ -63,11 +69,11 @@
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold mb-1" id="dropTitle">اسحب وأفلت صورك هنا، أو اضغط للاختيار</h3>
-                    <p class="text-xs text-slate-400" id="dropDesc">تدعم صيغ PNG, JPG, JPEG, WebP, AVIF (بكميات غير محدودة)</p>
+                    <h3 class="text-xl font-bold mb-1" id="dropTitle">Drag & drop your images here, or click to browse</h3>
+                    <p class="text-xs text-slate-400" id="dropDesc">Supports PNG, JPG, JPEG, WebP, AVIF (Unlimited batch processing)</p>
                 </div>
-                <button class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-cyan-500/20 hover:opacity-90 transition">
-                    <span id="selectBtnText">اختر الصور الآن</span>
+                <button class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-cyan-500/20 hover:opacity-90 transition pointer-events-none">
+                    <span id="selectBtnText">Select Images Now</span>
                 </button>
             </div>
         </div>
@@ -77,27 +83,28 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <label class="text-xs font-bold text-slate-300" id="qualityLabel">مستوى الجودة:</label>
+                        <label class="text-xs font-bold text-slate-300" id="qualityLabel">Quality Level:</label>
                         <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
                     </div>
                     <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
+                
                 <div>
-                    <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabel">الصيغة المستهدفة:</label>
+                    <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabelText">Target Format:</label>
                     <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-                        <option value="original">نفس الصيغة الأصلية</option>
-                        <option value="image/webp">WebP (الأفضل للويب)</option>
-                        <option value="image/avif">AVIF (ضغط فائق للغاية)</option>
-                        <option value="image/jpeg">JPG (متوافق عالمياً)</option>
+                        <option value="original" id="optOriginal">Same as original format</option>
+                        <option value="image/webp">WebP (Best for Web)</option>
+                        <option value="image/jpeg">JPG (Universal Compatibility)</option>
                     </select>
                 </div>
+
                 <div>
-                    <label class="text-xs font-bold text-slate-300 block mb-2" id="resizeLabel">تصغير الأبعاد (نسبة مئوية):</label>
+                    <label class="text-xs font-bold text-slate-300 block mb-2" id="resizeLabelText">Resize Scale:</label>
                     <select id="resizeScale" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-                        <option value="1">100% (نفس الأبعاد)</option>
-                        <option value="0.75">75% (تصغير 25%)</option>
-                        <option value="0.5">50% (نصف الحجم)</option>
-                        <option value="0.25">25% (ربع الحجم)</option>
+                        <option value="1" id="optResize100">100% (Original Dimensions)</option>
+                        <option value="0.75" id="optResize75">75% (25% Smaller)</option>
+                        <option value="0.5" id="optResize50">50% (Half Size)</option>
+                        <option value="0.25" id="optResize25">25% (Quarter Size)</option>
                     </select>
                 </div>
             </div>
@@ -106,73 +113,36 @@
         <!-- Results Section -->
         <div id="resultsSection" class="mt-8 space-y-4 hidden">
             <div class="flex justify-between items-center px-2">
-                <h3 class="text-lg font-bold text-slate-200" id="resultsTitle">الصور المضغوطة:</h3>
+                <h3 class="text-lg font-bold text-slate-200" id="resultsTitle">Compressed Images:</h3>
                 <button id="downloadAllBtn" class="px-5 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-500/20 hover:opacity-90 transition flex items-center gap-2">
-                    <i class="fa-solid fa-download"></i> <span id="downloadAllText">تحميل الكل (ZIP)</span>
+                    <i class="fa-solid fa-download"></i> <span id="downloadAllText">Download All (ZIP)</span>
                 </button>
             </div>
             <div id="imagesList" class="space-y-3"></div>
         </div>
 
-        <!-- Features Grid Section -->
+        <!-- Features Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
             <div class="glass-card p-6 rounded-2xl border border-slate-800">
                 <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat1Title">خصوصية وأمان 100%</h4>
-                <p class="text-xs text-slate-400 leading-relaxed" id="feat1Desc">تتم المعالجة بالكامل داخل متصفحك محلياً، ولا يتم رفع أي صورة نهائياً لأي سيرفر خارجي.</p>
+                <h4 class="font-bold text-base mb-2" id="feat1Title">100% Absolute Privacy</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat1Desc">Processing happens entirely inside your browser locally. No images are ever uploaded to any server.</p>
             </div>
             <div class="glass-card p-6 rounded-2xl border border-slate-800">
                 <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
                     <i class="fa-solid fa-bolt-lightning"></i>
                 </div>
-                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat2Title">سرعة فائقة بلا حدود</h4>
-                <p class="text-xs text-slate-400 leading-relaxed" id="feat2Desc">اضغط مئات الصور دفعة واحدة (Batch Processing) بدون حدود أو انتظار طوابير الرفع.</p>
+                <h4 class="font-bold text-base mb-2" id="feat2Title">Lightning Fast & Unlimited</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat2Desc">Compress hundreds of images simultaneously with zero queue or file count limits.</p>
             </div>
             <div class="glass-card p-6 rounded-2xl border border-slate-800">
                 <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl mb-4">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h4 class="font-bold text-base mb-2 text-slate-200" id="feat3Title">صيغ ويب حديثة</h4>
-                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">دعم كامل لتحويل الصور إلى WebP و AVIF لتقليص الحجم لأقصى درجة ممكنة مع الحفاظ على الجودة.</p>
-            </div>
-        </div>
-
-        <!-- How It Works Section -->
-        <div class="mt-20 text-center">
-            <h3 class="text-2xl font-extrabold mb-8 text-slate-200" id="howTitle">كيف تعمل الأداة في 3 خطوات بسيطة؟</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-6 rounded-2xl">
-                    <span class="text-cyan-400 font-black text-3xl block mb-2">01</span>
-                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step1Title">اختر صورك</h5>
-                    <p class="text-xs text-slate-400" id="step1Desc">اسحب وأفلت الصور أو اخترها من جهازك مباشرة.</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl">
-                    <span class="text-cyan-400 font-black text-3xl block mb-2">02</span>
-                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step2Title">حدد الإعدادات</h5>
-                    <p class="text-xs text-slate-400" id="step2Desc">اختر نسبة الضغط، الصيغة، أو الأبعاد إن أردت.</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl">
-                    <span class="text-cyan-400 font-black text-3xl block mb-2">03</span>
-                    <h5 class="font-bold text-sm mb-1 text-slate-200" id="step3Title">حمل النتائج</h5>
-                    <p class="text-xs text-slate-400" id="step3Desc">قم بتحميل الصور منفردة أو بملف ZIP واحد بضغطة.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAQ Section -->
-        <div class="mt-20 max-w-3xl mx-auto">
-            <h3 class="text-2xl font-extrabold mb-6 text-center text-slate-200" id="faqTitle">الأسئلة الشائعة</h3>
-            <div class="space-y-4">
-                <div class="glass-card p-5 rounded-2xl">
-                    <h5 class="font-bold text-sm text-cyan-400 mb-1" id="faq1Q">هل الخدمة مجانية بالكامل؟</h5>
-                    <p class="text-xs text-slate-300 leading-relaxed" id="faq1A">نعم، الأداة مجانية تماماً وبدون أي اشتراكات أو قيود على عدد الصور.</p>
-                </div>
-                <div class="glass-card p-5 rounded-2xl">
-                    <h5 class="font-bold text-sm text-cyan-400 mb-1" id="faq2Q">هل يتم حفظ صوري على خوادم الموقع؟</h5>
-                    <p class="text-xs text-slate-300 leading-relaxed" id="faq2A">أبداً! تتم المعالجة بالكامل محلياً داخل متصفحك عبر تقنية JavaScript، وصورك لا تغادر جهازك أبداً.</p>
-                </div>
+                <h4 class="font-bold text-base mb-2" id="feat3Title">Next-Gen Web Formats</h4>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">Full support for converting images to WebP format for maximum file size reduction.</p>
             </div>
         </div>
 
@@ -180,91 +150,261 @@
 
     <!-- Footer -->
     <footer class="w-full py-6 glass-card border-t border-slate-800 text-center text-xs text-slate-400 mt-20">
-        <p id="footerText">© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.</p>
+        <p id="footerText">© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing.</p>
     </footer>
 
-    <!-- JavaScript Logic -->
+    <!-- Multi-Language Dictionary & Logic -->
     <script>
         const translations = {
-            ar: {
-                pageTitle: "Pro Image Compress - أداة ضغط الصور الاحترافية",
-                subHeaderBrand: "أسرع وأأمن أداة لضغط الصور مجاناً",
-                heroTitle: "اضغط صورك بذكاء دون أن تفقد جودتها",
-                heroSubtitle: "معالجة فورية داخل متصفحك بالكامل بخصوصية مطلقة ودون رفع صورك لأي سيرفر خارجي.",
-                dropTitle: "اسحب وأفلت صورك هنا، أو اضغط للاختيار",
-                dropDesc: "تدعم صيغ PNG, JPG, JPEG, WebP, AVIF (بكميات غير محدودة)",
-                selectBtnText: "اختر الصور الآن",
-                qualityLabel: "مستوى الجودة:",
-                formatLabel: "الصيغة المستهدفة:",
-                resizeLabel: "تصغير الأبعاد:",
-                resultsTitle: "الصور المضغوطة:",
-                downloadAllText: "تحميل الكل (ZIP)",
-                feat1Title: "خصوصية وأمان 100%",
-                feat1Desc: "تتم المعالجة بالكامل داخل متصفحك محلياً، ولا يتم رفع أي صورة نهائياً لأي سيرفر خارجي.",
-                feat2Title: "سرعة فائقة بلا حدود",
-                feat2Desc: "اضغط مئات الصور دفعة واحدة (Batch Processing) بدون حدود أو انتظار طوابير الرفع.",
-                feat3Title: "صيغ ويب حديثة",
-                feat3Desc: "دعم كامل لتحويل الصور إلى WebP و AVIF لتقليص الحجم لأقصى درجة ممكنة مع الحفاظ على الجودة.",
-                howTitle: "كيف تعمل الأداة في 3 خطوات بسيطة؟",
-                step1Title: "اختر صورك",
-                step1Desc: "اسحب وأفلت الصور أو اخترها من جهازك مباشرة.",
-                step2Title: "حدد الإعدادات",
-                step2Desc: "اختر نسبة الضغط، الصيغة، أو الأبعاد إن أردت.",
-                step3Title: "حمل النتائج",
-                step3Desc: "قم بتحميل الصور منفردة أو بملف ZIP واحد بضغطة.",
-                faqTitle: "الأسئلة الشائعة",
-                faq1Q: "هل الخدمة مجانية بالكامل؟",
-                faq1A: "نعم، الأداة مجانية تماماً وبدون أي اشتراكات أو قيود على عدد الصور.",
-                faq2Q: "هل يتم حفظ صوري على خوادم الموقع؟",
-                faq2A: "أبداً! تتم المعالجة بالكامل محلياً داخل متصفحك عبر تقنية JavaScript، وصورك لا تغادر جهازك أبداً.",
-                footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%."
-            },
             en: {
-                pageTitle: "Pro Image Compress - Professional Image Compressor",
+                pageTitle: "Pro Image Compress - Professional & Secure Image Compressor",
                 subHeaderBrand: "Fastest & Secure Free Image Compressor",
+                heroBadge: "🔒 100% Secure Local Processing - Zero Server Uploads",
                 heroTitle: "Compress Your Images Smartly Without Losing Quality",
-                heroSubtitle: "100% Client-side processing in your browser with absolute privacy and zero server uploads.",
+                heroSubtitle: "The fastest and most secure tool globally to batch compress hundreds of images with zero restrictions or ads.",
                 dropTitle: "Drag & drop your images here, or click to browse",
-                dropDesc: "Supports PNG, JPG, JPEG, WebP, AVIF (Unlimited batch)",
-                selectBtnText: "Select Images",
+                dropDesc: "Supports PNG, JPG, JPEG, WebP, AVIF (Unlimited batch processing)",
+                selectBtnText: "Select Images Now",
                 qualityLabel: "Quality Level:",
-                formatLabel: "Output Format:",
-                resizeLabel: "Resize Scale:",
+                formatLabelText: "Target Format:",
+                optOriginal: "Same as original format",
+                resizeLabelText: "Resize Scale:",
+                optResize100: "100% (Original Dimensions)",
+                optResize75: "75% (25% Smaller)",
+                optResize50: "50% (Half Size)",
+                optResize25: "25% (Quarter Size)",
                 resultsTitle: "Compressed Images:",
                 downloadAllText: "Download All (ZIP)",
-                feat1Title: "100% Privacy & Security",
-                feat1Desc: "Processing happens entirely inside your browser. No images are ever uploaded to any external server.",
-                feat2Title: "Blazing Fast & Unlimited",
-                feat2Desc: "Compress hundreds of images in batch with zero waiting time or upload queues.",
-                feat3Title: "Next-Gen Formats",
-                feat3Desc: "Full support for WebP and AVIF conversion to achieve maximum compression ratio without losing quality.",
-                howTitle: "How It Works in 3 Simple Steps",
-                step1Title: "Select Images",
-                step1Desc: "Drag and drop your images or browse from your device.",
-                step2Title: "Set Preferences",
-                step2Desc: "Choose compression level, target format, or resize scale if needed.",
-                step3Title: "Download Results",
-                step3Desc: "Download individual compressed images or get them all in a single ZIP file.",
-                faqTitle: "Frequently Asked Questions",
-                faq1Q: "Is the service completely free?",
-                faq1A: "Yes, the tool is 100% free with no subscriptions or limits on image counts.",
-                faq2Q: "Are my images stored on your servers?",
-                faq2A: "Never! Processing runs entirely client-side using JavaScript, ensuring your images never leave your device.",
-                footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing."
+                feat1Title: "100% Absolute Privacy",
+                feat1Desc: "Processing happens entirely inside your browser locally. No images are ever uploaded to any server.",
+                feat2Title: "Lightning Fast & Unlimited",
+                feat2Desc: "Compress hundreds of images simultaneously with zero queue or file count limits.",
+                feat3Title: "Next-Gen Web Formats",
+                feat3Desc: "Full support for converting images to WebP format for maximum file size reduction.",
+                footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing.",
+                savedBadge: "Saved",
+                downloadBtn: "Download"
+            },
+            ar: {
+                pageTitle: "Pro Image Compress - أداة ضغط الصور الاحترافية والآمنة",
+                subHeaderBrand: "أسرع وأأمن أداة لضغط الصور مجاناً",
+                heroBadge: "🔒 معالجة محلية آمنة 100% بدون رفع للخوادم",
+                heroTitle: "اضغط صورك بذكاء دون أن تفقد جودتها",
+                heroSubtitle: "الأداة الأسرع والأكثر أماناً عالمياً لضغط مئات الصور دفعة واحدة ودون أي قيود أو إعلانات.",
+                dropTitle: "اسحب وأفلت صورك هنا، أو اضغط للاختيار",
+                dropDesc: "تدعم صيغ PNG, JPG, JPEG, WebP, AVIF (بكميات غير محدودة تماماً)",
+                selectBtnText: "اختر الصور الآن",
+                qualityLabel: "مستوى الجودة:",
+                formatLabelText: "الصيغة المستهدفة:",
+                optOriginal: "نفس الصيغة الأصلية",
+                resizeLabelText: "تصغير الأبعاد:",
+                optResize100: "100% (نفس الأبعاد)",
+                optResize75: "75% (تصغير 25%)",
+                optResize50: "50% (نصف الحجم)",
+                optResize25: "25% (ربع الحجم)",
+                resultsTitle: "الصور المضغوطة:",
+                downloadAllText: "تحميل الكل (ZIP)",
+                feat1Title: "خصوصية مطلقة 100%",
+                feat1Desc: "تتم المعالجة بالكامل داخل متصفحك محلياً، ولا يتم رفع أي صورة لأي خادم خارجي أبداً.",
+                feat2Title: "سرعة خيالية وبدون قيود",
+                feat2Desc: "اضغط مئات الصور دفعة واحدة وبدون طابور انتظار أو حدود لعدد الملفات.",
+                feat3Title: "صيغ الويب الحديثة",
+                feat3Desc: "دعم كامل لتحويل الصور إلى صيغ WebP لتقليل الحجم لأقصى حد ممكن.",
+                footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.",
+                savedBadge: "وفرت",
+                downloadBtn: "تحميل"
+            },
+            zh: {
+                pageTitle: "Pro Image Compress - 专业且安全的图像压缩工具",
+                subHeaderBrand: "最快、最安全的免费图像压缩器",
+                heroBadge: "🔒 100% 安全本地处理 - 零服务器上传",
+                heroTitle: "在不失真的情况下智能压缩您的图像",
+                heroSubtitle: "全球最快、最安全的工具，可批量压缩数百张图片，无任何限制或广告。",
+                dropTitle: "将图片拖放到此处，或点击浏览",
+                dropDesc: "支持 PNG, JPG, JPEG, WebP, AVIF (无限批量处理)",
+                selectBtnTest: "立即选择图片",
+                selectBtnText: "选择图片",
+                qualityLabel: "质量级别:",
+                formatLabelText: "目标格式:",
+                optOriginal: "与原始格式相同",
+                resizeLabelText: "调整大小比例:",
+                optResize100: "100% (原始尺寸)",
+                optResize75: "75% (缩小 25%)",
+                optResize50: "50% (一半大小)",
+                optResize25: "25% (四分之一大小)",
+                resultsTitle: "压缩后的图片:",
+                downloadAllText: "全部下载 (ZIP)",
+                feat1Title: "100% 绝对隐私",
+                feat1Desc: "处理完全在您的浏览器本地进行。绝不会将任何图片上传到任何服务器。",
+                feat2Title: "闪电般快速且无限制",
+                feat2Desc: "同时压缩数百张图片，没有排队或文件数量限制。",
+                feat3Title: "新一代网络格式",
+                feat3Desc: "全面支持转换为 WebP 格式，以实现最大的文件大小缩减。",
+                footerText: "© 2026 ProImageCompress. 保留所有权利。100% 安全本地处理。",
+                savedBadge: "已节省",
+                downloadBtn: "下载"
+            },
+            es: {
+                pageTitle: "Pro Image Compress - Compresor de imágenes profesional y seguro",
+                subHeaderBrand: "Compresor de imágenes gratuito más rápido y seguro",
+                heroBadge: "🔒 Procesamiento local 100% seguro - Sin subidas al servidor",
+                heroTitle: "Comprime tus imágenes de forma inteligente sin perder calidad",
+                heroSubtitle: "La herramienta más rápida y segura del mundo para comprimir cientos de imágenes sin restricciones.",
+                dropTitle: "Arrastra y suelta tus imágenes aquí, o haz clic",
+                dropDesc: "Soporta PNG, JPG, JPEG, WebP, AVIF (Procesamiento por lotes ilimitado)",
+                selectBtnText: "Seleccionar imágenes",
+                qualityLabel: "Nivel de calidad:",
+                formatLabelText: "Formato de salida:",
+                optOriginal: "Igual que el formato original",
+                resizeLabelText: "Escala de redimensión:",
+                optResize100: "100% (Tamaño original)",
+                optResize75: "75% (25% más pequeño)",
+                optResize50: "50% (Mitad de tamaño)",
+                optResize25: "25% (Cuarto de tamaño)",
+                resultsTitle: "Imágenes comprimidas:",
+                downloadAllText: "Descargar todo (ZIP)",
+                feat1Title: "Privacidad 100% absoluta",
+                feat1Desc: "El procesamiento ocurre localmente en tu navegador. Ninguna imagen se sube a servidores.",
+                feat2Title: "Ultra rápido e ilimitado",
+                feat2Desc: "Comprime cientos de imágenes simultáneamente sin colas ni límites.",
+                feat3Title: "Formatos web modernos",
+                feat3Desc: "Soporte completo para convertir a WebP para una reducción máxima del tamaño.",
+                footerText: "© 2026 ProImageCompress. Todos los derechos reservados.",
+                savedBadge: "Ahorro",
+                downloadBtn: "Descargar"
+            },
+            fr: {
+                pageTitle: "Pro Image Compress - Compresseur d'images professionnel et sécurisé",
+                subHeaderBrand: "Compresseur d'images gratuit le plus rapide",
+                heroBadge: "🔒 Traitement local 100% sécurisé - Zéro téléchargement sur serveur",
+                heroTitle: "Compressez vos images intelligemment sans perdre en qualité",
+                heroSubtitle: "L'outil le plus rapide et le plus sûr pour compresser des centaines d'images par lots.",
+                dropTitle: "Glissez-déposez vos images ici, ou cliquez",
+                dropDesc: "Prend en charge PNG, JPG, JPEG, WebP, AVIF (Traitement par lots illimité)",
+                selectBtnText: "Sélectionner des images",
+                qualityLabel: "Niveau de qualité :",
+                formatLabelText: "Format cible :",
+                optOriginal: "Identique au format d'origine",
+                resizeLabelText: "Échelle de redimensionnement :",
+                optResize100: "100% (Taille d'origine)",
+                optResize75: "75% (25% plus petit)",
+                optResize50: "50% (Moitié)",
+                optResize25: "25% (Quart)",
+                resultsTitle: "Images compressées :",
+                downloadAllText: "Tout télécharger (ZIP)",
+                feat1Title: "Confidentialité absolue à 100%",
+                feat1Desc: "Le traitement s'effectue entièrement dans votre navigateur localement.",
+                feat2Title: "Ultra rapide et illimité",
+                feat2Desc: "Compressez des centaines d'images simultanément sans file d'attente.",
+                feat3Title: "Formats Web nouvelle génération",
+                feat3Desc: "Prise en charge complète de la conversion au format WebP.",
+                footerText: "© 2026 ProImageCompress. Tous droits réservés.",
+                savedBadge: "Économisé",
+                downloadBtn: "Télécharger"
+            },
+            de: {
+                pageTitle: "Pro Image Compress - Professioneller & Sicherer Bildkompressor",
+                subHeaderBrand: "Der schnellste & sicherste kostenlose Bildkompressor",
+                heroBadge: "🔒 100% Sichere lokale Verarbeitung - Keine Server-Uploads",
+                heroTitle: "Komprimieren Sie Ihre Bilder intelligent ohne Qualitätsverlust",
+                heroSubtitle: "Das schnellste und sicherste Tool weltweit, um Hunderte Bilder ohne Einschränkungen zu komprimieren.",
+                dropTitle: "Bilder hierher ziehen oder klicken",
+                dropDesc: "Unterstützt PNG, JPG, JPEG, WebP, AVIF (Unbegrenzte Stapelverarbeitung)",
+                selectBtnText: "Bilder auswählen",
+                qualityLabel: "Qualitätsstufe:",
+                formatLabelText: "Zielformat:",
+                optOriginal: "Wie Originalformat",
+                resizeLabelText: "Skalierung:",
+                optResize100: "100% (Originalgröße)",
+                optResize75: "75% (25% kleiner)",
+                optResize50: "50% (Halbe Größe)",
+                optResize25: "25% (Viertel Größe)",
+                resultsTitle: "Komprimierte Bilder:",
+                downloadAllText: "Alle herunterladen (ZIP)",
+                feat1Title: "100% Absolute Privatsphäre",
+                feat1Desc: "Die Verarbeitung erfolgt vollständig lokal in Ihrem Browser.",
+                feat2Title: "Blitzschnell & Unbegrenzt",
+                feat2Desc: "Komprimieren Sie Hunderte von Bildern gleichzeitig ohne Limits.",
+                feat3Title: "Web-Formate der nächsten Generation",
+                feat3Desc: "Volle Unterstützung für die Konvertierung in das WebP-Format.",
+                footerText: "© 2026 ProImageCompress. Alle Rechte vorbehalten.",
+                savedBadge: "Gespart",
+                downloadBtn: "Herunterladen"
+            },
+            tr: {
+                pageTitle: "Pro Image Compress - Profesyonel ve Güvenli Resim Sıkıştırıcı",
+                subHeaderBrand: "En Hızlı ve Güvenli Ücretsiz Resim Sıkıştırıcı",
+                heroBadge: "🔒 %100 Güvenli Yerel İşlem - Sunucuya Yükleme Yok",
+                heroTitle: "Kaliteyi Kaybetmeden Resimlerinizi Akıllıca Sıkıştırın",
+                heroSubtitle: "Yüzlerce resmi sıfır kısıtlamayla toplu olarak sıkıştırmak için dünyanın en hızlı ve en güvenli aracı.",
+                dropTitle: "Resimlerinizi buraya sürükleyin veya göz atın",
+                dropDesc: "PNG, JPG, JPEG, WebP, AVIF formatlarını destekler (Sınırsız toplu işlem)",
+                selectBtnText: "Resimleri Seç",
+                qualityLabel: "Kalite Seviyesi:",
+                formatLabelText: "Hedef Format:",
+                optOriginal: "Orijinal format ile aynı",
+                resizeLabelText: "Boyutlandır:",
+                optResize100: "%100 (Orijinal Boyut)",
+                optResize75: "%75 (%25 Küçük)",
+                optResize50: "%50 (Yarım Boyut)",
+                optResize25: "%25 (Çeyrek Boyut)",
+                resultsTitle: "Sıkıştırılmış Resimler:",
+                downloadAllText: "Tümünü İndir (ZIP)",
+                feat1Title: "%100 Mutlak Gizlilik",
+                feat1Desc: "İşlem tamamen tarayıcınızın içinde yerel olarak gerçekleşir. Hiçbir resim sunucuya yüklenmez.",
+                feat2Title: "Yıldırım Hızında ve Sınırsız",
+                feat2Desc: "Sıfır bekleme kuyruğu veya dosya sınırı ile yüzlerce resmi aynı anda sıkıştırın.",
+                feat3Title: "Yeni Nesil Web Formatları",
+                feat3Desc: "Maksimum dosya boyutu azaltma için WebP formatına tam dönüştürme desteği.",
+                footerText: "© 2026 ProImageCompress. Tüm hakları saklıdır. %100 Güvenli Yerel İşlem.",
+                savedBadge: "Tasarruf",
+                downloadBtn: "İndir"
             }
         };
 
-        function changeLanguage(lang) {
+        // Auto-detect browser language or fallback to English
+        function getInitialLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const shortLang = browserLang ? browserLang.substring(0, 2).toLowerCase() : 'en';
+            if (translations[shortLang]) {
+                return shortLang;
+            }
+            return 'en';
+        }
+
+        let currentLang = getInitialLanguage();
+
+        function setLanguage(lang) {
+            if (!translations[lang]) lang = 'en';
+            currentLang = lang;
+            
             const html = document.getElementById('htmlRoot');
             html.setAttribute('lang', lang);
             html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-            document.getElementById('btnAr').className = lang === 'ar' ? 'px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition' : 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition';
-            document.getElementById('btnEn').className = lang === 'en' ? 'px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition' : 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition';
+            // Highlight active button
+            ['en', 'ar', 'zh', 'es', 'fr', 'de', 'tr'].forEach(l => {
+                const btn = document.getElementById('btn-' + l);
+                if (btn) {
+                    if (l === lang) {
+                        btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition shadow-md shadow-cyan-500/20";
+                    } else {
+                        btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition";
+                    }
+                }
+            });
 
+            // Replace all dictionary elements
             for (let key in translations[lang]) {
                 const el = document.getElementById(key);
-                if (el) el.innerText = translations[lang][key];
+                if (el) {
+                    el.innerText = translations[lang][key];
+                }
+            }
+
+            // If results are already processed, re-render to update UI text like "Saved" or "Download"
+            if (storedFiles.length > 0 && processedFilesData.length > 0) {
+                renderResultsList();
             }
         }
 
@@ -278,25 +418,40 @@
         const resizeScale = document.getElementById('resizeScale');
         const downloadAllBtn = document.getElementById('downloadAllBtn');
 
+        let storedFiles = [];
         let processedFilesData = [];
 
         qualityRange.addEventListener('input', (e) => {
             qualityVal.innerText = e.target.value + '%';
         });
 
+        // Re-process immediately when settings change
+        [qualityRange, formatSelect, resizeScale].forEach(element => {
+            element.addEventListener('change', () => {
+                if (storedFiles.length > 0) {
+                    processAllFiles();
+                }
+            });
+        });
+
         fileInput.addEventListener('change', async (e) => {
             const files = e.target.files;
             if (files.length === 0) return;
 
+            storedFiles = Array.from(files);
             controlsPanel.classList.remove('hidden');
             resultsSection.classList.remove('hidden');
-            imagesList.innerHTML = '';
-            processedFilesData = [];
 
-            for (let file of files) {
+            await processAllFiles();
+        });
+
+        async function processAllFiles() {
+            processedFilesData = [];
+            for (let file of storedFiles) {
                 await processImage(file);
             }
-        });
+            renderResultsList();
+        }
 
         function formatBytes(bytes, decimals = 2) {
             if (bytes === 0) return '0 Bytes';
@@ -319,15 +474,16 @@
                         const ctx = canvas.getContext('2d');
                         
                         const scale = parseFloat(resizeScale.value);
-                        canvas.width = Math.round(img.width * scale);
-                        canvas.height = Math.round(img.height * scale);
+                        canvas.width = Math.max(1, Math.round(img.width * scale));
+                        canvas.height = Math.max(1, Math.round(img.height * scale));
                         
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                         const quality = parseInt(qualityRange.value) / 100;
                         let format = formatSelect.value;
+                        
                         if (format === 'original') {
-                            format = file.type || 'image/jpeg';
+                            format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
                         }
 
                         const compressedDataUrl = canvas.toDataURL(format, quality);
@@ -335,45 +491,86 @@
                         fetch(compressedDataUrl)
                             .then(res => res.blob())
                             .then(blob => {
-                                const originalSize = file.size;
-                                const compressedSize = blob.size;
-                                const savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+                                let originalSize = file.size;
+                                let compressedSize = blob.size;
 
-                                let ext = '.jpg';
-                                if (format === 'image/webp') ext = '.webp';
-                                else if (format === 'image/avif') ext = '.avif';
-                                else if (format === 'image/png') ext = '.png';
-
-                                const itemObj = {
-                                    name: file.name.substring(0, file.name.lastIndexOf('.')) || file.name,
-                                    blob: blob,
-                                    url: compressedDataUrl
-                                };
-                                itemObj.name = itemObj.name.replace(/\.[^/.]+$/, "") + ext;
-                                processedFilesData.push(itemObj);
-
-                                const itemHTML = `
-                                    <div class="glass-card rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-750">
-                                        <div class="flex items-center gap-3 w-full md:w-auto">
-                                            <img src="${compressedDataUrl}" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
-                                            <div>
-                                                <h4 class="font-bold text-sm text-slate-200 truncate max-w-xs">${file.name}</h4>
-                                                <p class="text-xs text-slate-400">${formatBytes(originalSize)} ➔ <span class="text-emerald-400 font-bold">${formatBytes(compressedSize)}</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-                                            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold rounded-lg">وفرت ${savings}%</span>
-                                            <a href="${compressedDataUrl}" download="${itemObj.name}" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:opacity-90 transition">
-                                                تحميل
-                                            </a>
-                                        </div>
-                                    </div>
-                                `;
-                                imagesList.insertAdjacentHTML('beforeend', itemHTML);
+                                // Anti-bloat intelligence check: if compressed size is larger than original, fallback or use tighter quality
+                                if (compressedSize >= originalSize && quality > 0.3) {
+                                    const tighterDataUrl = canvas.toDataURL(format, 0.5);
+                                    fetch(tighterDataUrl).then(r => r.blob()).then(tBlob => {
+                                        let finalBlob = tBlob.size < originalSize ? tBlob : blob;
+                                        let finalUrl = tBlob.size < originalSize ? tighterDataUrl : compressedDataUrl;
+                                        storeProcessedItem(file, finalBlob, finalUrl, originalSize);
+                                        resolve();
+                                    }).catch(() => {
+                                        storeProcessedItem(file, blob, compressedDataUrl, originalSize);
+                                        resolve();
+                                    });
+                                } else {
+                                    storeProcessedItem(file, blob, compressedDataUrl, originalSize);
+                                    resolve();
+                                }
+                            }).catch(() => {
                                 resolve();
                             });
                     };
+                    img.onerror = () => resolve();
                 };
+                reader.onerror = () => resolve();
+            });
+        }
+
+        function storeProcessedItem(file, blob, dataUrl, originalSize) {
+            const compressedSize = blob.size;
+            let savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+            if (savings < 0) savings = "0.0";
+
+            let ext = '.jpg';
+            let currentFormat = formatSelect.value;
+            if (currentFormat === 'image/webp') ext = '.webp';
+            else if (currentFormat === 'image/jpeg') ext = '.jpg';
+            else if (currentFormat === 'original') {
+                const origExt = file.name.substring(file.name.lastIndexOf('.'));
+                ext = origExt ? origExt : '.jpg';
+            }
+
+            const baseName = file.name.includes('.') ? file.name.substring(0, file.name.lastIndexOf('.')) : file.name;
+            const finalFileName = baseName + '_compressed' + ext;
+
+            processedFilesData.push({
+                name: finalFileName,
+                originalName: file.name,
+                originalSize: originalSize,
+                compressedSize: compressedSize,
+                savings: savings,
+                blob: blob,
+                url: dataUrl
+            });
+        }
+
+        function renderResultsList() {
+            imagesList.innerHTML = '';
+            const t = translations[currentLang];
+
+            processedFilesData.forEach((item) => {
+                const itemHTML = `
+                    <div class="glass-card rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-750">
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <img src="${item.url}" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-200 truncate max-w-xs">${item.originalName}</h4>
+                                <p class="text-xs text-slate-400">${formatBytes(item.originalSize)} ➔ <span class="text-emerald-400 font-bold">${formatBytes(item.compressedSize)}</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold rounded-lg">${t.savedBadge || "Saved"} ${item.savings}%</span>
+                            <a href="${item.url}" download="${item.name}" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:opacity-90 transition">
+                                ${t.downloadBtn || "Download"}
+                            </a>
+                        </div>
+                    </div>
+                `;
+                imagesList.insertAdjacentHTML('beforeend', itemHTML);
             });
         }
 
@@ -392,6 +589,9 @@
             link.download = "ProImageCompress_Batch.zip";
             link.click();
         });
+
+        // Initialize default language on page load
+        setLanguage(currentLang);
     </script>
 </body>
 </html>

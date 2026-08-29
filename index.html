@@ -82,9 +82,9 @@
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold text-slate-300" id="qualityLabel">Quality Level:</label>
-                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">85%</span>
                     </div>
-                    <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                    <input type="range" id="qualityRange" min="10" max="100" value="85" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
                 
                 <div>
@@ -392,7 +392,6 @@
             menu.classList.toggle('hidden');
         }
 
-        // Close dropdown when clicking outside
         window.addEventListener('click', function(e) {
             const btn = document.getElementById('langDropdownBtn');
             const menu = document.getElementById('langDropdownMenu');
@@ -409,11 +408,9 @@
             html.setAttribute('lang', lang);
             html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
 
-            // Update current language label on button
             document.getElementById('currentLangLabel').innerText = translations[lang].nativeName;
             document.getElementById('langDropdownMenu').classList.add('hidden');
 
-            // Replace all dictionary elements
             for (let key in translations[lang]) {
                 const el = document.getElementById(key);
                 if (el) {
@@ -421,7 +418,6 @@
                 }
             }
 
-            // If results are already processed, re-render to update UI text like "Saved" or "Download"
             if (storedFiles.length > 0 && processedFilesData.length > 0) {
                 renderResultsList();
             }
@@ -495,9 +491,14 @@
                         canvas.width = Math.max(1, Math.round(img.width * scale));
                         canvas.height = Math.max(1, Math.round(img.height * scale));
                         
+                        // تفعيل تحسينات النقاء لمنع التشويش والغبش
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
+                        
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        const quality = parseInt(qualityRange.value) / 100;
+                        // الحفاظ على جودة عالية افتراضياً (لا تقل عن 85%)
+                        let quality = Math.max(0.85, parseInt(qualityRange.value) / 100);
                         let format = formatSelect.value;
                         
                         if (format === 'original') {
@@ -512,21 +513,13 @@
                                 let originalSize = file.size;
                                 let compressedSize = blob.size;
 
-                                if (compressedSize >= originalSize && quality > 0.3) {
-                                    const tighterDataUrl = canvas.toDataURL(format, 0.5);
-                                    fetch(tighterDataUrl).then(r => r.blob()).then(tBlob => {
-                                        let finalBlob = tBlob.size < originalSize ? tBlob : blob;
-                                        let finalUrl = tBlob.size < originalSize ? tighterDataUrl : compressedDataUrl;
-                                        storeProcessedItem(file, finalBlob, finalUrl, originalSize);
-                                        resolve();
-                                    }).catch(() => {
-                                        storeProcessedItem(file, blob, compressedDataUrl, originalSize);
-                                        resolve();
-                                    });
+                                // إذا كانت الصورة الناتجة أكبر أو تم تخريبها، احتفظ بالأصلية تماماً
+                                if (compressedSize >= originalSize) {
+                                    storeProcessedItem(file, file, event.target.result, originalSize);
                                 } else {
                                     storeProcessedItem(file, blob, compressedDataUrl, originalSize);
-                                    resolve();
                                 }
+                                resolve();
                             }).catch(() => {
                                 resolve();
                             });
@@ -607,7 +600,6 @@
             link.click();
         });
 
-        // Initialize default language on page load
         setLanguage(currentLang);
     </script>
 </body>

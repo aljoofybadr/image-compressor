@@ -39,15 +39,48 @@
             </div>
         </div>
         
-        <!-- Language Selector -->
-        <div class="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
-            <button onclick="setLanguage('en')" id="btn-en" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">EN</button>
-            <button onclick="setLanguage('ar')" id="btn-ar" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">العربية</button>
-            <button onclick="setLanguage('zh')" id="btn-zh" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">中文</button>
-            <button onclick="setLanguage('es')" id="btn-es" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">ES</button>
-            <button onclick="setLanguage('fr')" id="btn-fr" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">FR</button>
-            <button onclick="setLanguage('de')" id="btn-de" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">DE</button>
-            <button onclick="setLanguage('tr')" id="btn-tr" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">TR</button>
+        <!-- Language Selector - Dropdown -->
+        <div class="relative">
+            <button id="langDropdownBtn" class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-bold text-slate-200 transition border border-slate-700">
+                <i class="fa-solid fa-globe text-cyan-400"></i>
+                <span id="currentLangLabel">English</span>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+            </button>
+            <div id="langDropdownMenu" class="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden z-50">
+                <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="en">
+                    <span class="text-lg">🇬🇧</span> English
+                </button>
+                <button onclick="setLanguage('ar')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="ar">
+                    <span class="text-lg">🇸🇦</span> العربية
+                </button>
+                <button onclick="setLanguage('zh')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="zh">
+                    <span class="text-lg">🇨🇳</span> 中文
+                </button>
+                <button onclick="setLanguage('es')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="es">
+                    <span class="text-lg">🇪🇸</span> Español
+                </button>
+                <button onclick="setLanguage('fr')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="fr">
+                    <span class="text-lg">🇫🇷</span> Français
+                </button>
+                <button onclick="setLanguage('de')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="de">
+                    <span class="text-lg">🇩🇪</span> Deutsch
+                </button>
+                <button onclick="setLanguage('tr')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="tr">
+                    <span class="text-lg">🇹🇷</span> Türkçe
+                </button>
+                <button onclick="setLanguage('ru')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="ru">
+                    <span class="text-lg">🇷🇺</span> Русский
+                </button>
+                <button onclick="setLanguage('ja')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="ja">
+                    <span class="text-lg">🇯🇵</span> 日本語
+                </button>
+                <button onclick="setLanguage('pt')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="pt">
+                    <span class="text-lg">🇵🇹</span> Português
+                </button>
+                <button onclick="setLanguage('hi')" class="w-full text-left px-4 py-2.5 text-sm text-slate-200 hover:bg-slate-700 transition flex items-center gap-3" data-lang="hi">
+                    <span class="text-lg">🇮🇳</span> हिन्दी
+                </button>
+            </div>
         </div>
     </header>
 
@@ -222,7 +255,6 @@
                 heroSubtitle: "全球最快、最安全的工具，可批量压缩数百张图片，无任何限制或广告。",
                 dropTitle: "将图片拖放到此处，或点击浏览",
                 dropDesc: "支持 PNG, JPG, JPEG, WebP, AVIF (无限批量处理)",
-                selectBtnTest: "立即选择图片",
                 selectBtnText: "选择图片",
                 qualityLabel: "质量级别:",
                 formatLabelText: "目标格式:",
@@ -359,239 +391,77 @@
                 footerText: "© 2026 ProImageCompress. Tüm hakları saklıdır. %100 Güvenli Yerel İşlem.",
                 savedBadge: "Tasarruf",
                 downloadBtn: "İndir"
-            }
-        };
-
-        // Auto-detect browser language or fallback to English
-        function getInitialLanguage() {
-            const browserLang = navigator.language || navigator.userLanguage;
-            const shortLang = browserLang ? browserLang.substring(0, 2).toLowerCase() : 'en';
-            if (translations[shortLang]) {
-                return shortLang;
-            }
-            return 'en';
-        }
-
-        let currentLang = getInitialLanguage();
-
-        function setLanguage(lang) {
-            if (!translations[lang]) lang = 'en';
-            currentLang = lang;
-            
-            const html = document.getElementById('htmlRoot');
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-            // Highlight active button
-            ['en', 'ar', 'zh', 'es', 'fr', 'de', 'tr'].forEach(l => {
-                const btn = document.getElementById('btn-' + l);
-                if (btn) {
-                    if (l === lang) {
-                        btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 transition shadow-md shadow-cyan-500/20";
-                    } else {
-                        btn.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-750 transition";
-                    }
-                }
-            });
-
-            // Replace all dictionary elements
-            for (let key in translations[lang]) {
-                const el = document.getElementById(key);
-                if (el) {
-                    el.innerText = translations[lang][key];
-                }
-            }
-
-            // If results are already processed, re-render to update UI text like "Saved" or "Download"
-            if (storedFiles.length > 0 && processedFilesData.length > 0) {
-                renderResultsList();
-            }
-        }
-
-        const fileInput = document.getElementById('fileInput');
-        const controlsPanel = document.getElementById('controlsPanel');
-        const resultsSection = document.getElementById('resultsSection');
-        const imagesList = document.getElementById('imagesList');
-        const qualityRange = document.getElementById('qualityRange');
-        const qualityVal = document.getElementById('qualityVal');
-        const formatSelect = document.getElementById('formatSelect');
-        const resizeScale = document.getElementById('resizeScale');
-        const downloadAllBtn = document.getElementById('downloadAllBtn');
-
-        let storedFiles = [];
-        let processedFilesData = [];
-
-        qualityRange.addEventListener('input', (e) => {
-            qualityVal.innerText = e.target.value + '%';
-        });
-
-        // Re-process immediately when settings change
-        [qualityRange, formatSelect, resizeScale].forEach(element => {
-            element.addEventListener('change', () => {
-                if (storedFiles.length > 0) {
-                    processAllFiles();
-                }
-            });
-        });
-
-        fileInput.addEventListener('change', async (e) => {
-            const files = e.target.files;
-            if (files.length === 0) return;
-
-            storedFiles = Array.from(files);
-            controlsPanel.classList.remove('hidden');
-            resultsSection.classList.remove('hidden');
-
-            await processAllFiles();
-        });
-
-        async function processAllFiles() {
-            processedFilesData = [];
-            for (let file of storedFiles) {
-                await processImage(file);
-            }
-            renderResultsList();
-        }
-
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
-
-        async function processImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        
-                        const scale = parseFloat(resizeScale.value);
-                        canvas.width = Math.max(1, Math.round(img.width * scale));
-                        canvas.height = Math.max(1, Math.round(img.height * scale));
-                        
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                        const quality = parseInt(qualityRange.value) / 100;
-                        let format = formatSelect.value;
-                        
-                        if (format === 'original') {
-                            format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
-                        }
-
-                        const compressedDataUrl = canvas.toDataURL(format, quality);
-                        
-                        fetch(compressedDataUrl)
-                            .then(res => res.blob())
-                            .then(blob => {
-                                let originalSize = file.size;
-                                let compressedSize = blob.size;
-
-                                // Anti-bloat intelligence check: if compressed size is larger than original, fallback or use tighter quality
-                                if (compressedSize >= originalSize && quality > 0.3) {
-                                    const tighterDataUrl = canvas.toDataURL(format, 0.5);
-                                    fetch(tighterDataUrl).then(r => r.blob()).then(tBlob => {
-                                        let finalBlob = tBlob.size < originalSize ? tBlob : blob;
-                                        let finalUrl = tBlob.size < originalSize ? tighterDataUrl : compressedDataUrl;
-                                        storeProcessedItem(file, finalBlob, finalUrl, originalSize);
-                                        resolve();
-                                    }).catch(() => {
-                                        storeProcessedItem(file, blob, compressedDataUrl, originalSize);
-                                        resolve();
-                                    });
-                                } else {
-                                    storeProcessedItem(file, blob, compressedDataUrl, originalSize);
-                                    resolve();
-                                }
-                            }).catch(() => {
-                                resolve();
-                            });
-                    };
-                    img.onerror = () => resolve();
-                };
-                reader.onerror = () => resolve();
-            });
-        }
-
-        function storeProcessedItem(file, blob, dataUrl, originalSize) {
-            const compressedSize = blob.size;
-            let savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
-            if (savings < 0) savings = "0.0";
-
-            let ext = '.jpg';
-            let currentFormat = formatSelect.value;
-            if (currentFormat === 'image/webp') ext = '.webp';
-            else if (currentFormat === 'image/jpeg') ext = '.jpg';
-            else if (currentFormat === 'original') {
-                const origExt = file.name.substring(file.name.lastIndexOf('.'));
-                ext = origExt ? origExt : '.jpg';
-            }
-
-            const baseName = file.name.includes('.') ? file.name.substring(0, file.name.lastIndexOf('.')) : file.name;
-            const finalFileName = baseName + '_compressed' + ext;
-
-            processedFilesData.push({
-                name: finalFileName,
-                originalName: file.name,
-                originalSize: originalSize,
-                compressedSize: compressedSize,
-                savings: savings,
-                blob: blob,
-                url: dataUrl
-            });
-        }
-
-        function renderResultsList() {
-            imagesList.innerHTML = '';
-            const t = translations[currentLang];
-
-            processedFilesData.forEach((item) => {
-                const itemHTML = `
-                    <div class="glass-card rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-750">
-                        <div class="flex items-center gap-3 w-full md:w-auto">
-                            <img src="${item.url}" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
-                            <div>
-                                <h4 class="font-bold text-sm text-slate-200 truncate max-w-xs">${item.originalName}</h4>
-                                <p class="text-xs text-slate-400">${formatBytes(item.originalSize)} ➔ <span class="text-emerald-400 font-bold">${formatBytes(item.compressedSize)}</span></p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-                            <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-extrabold rounded-lg">${t.savedBadge || "Saved"} ${item.savings}%</span>
-                            <a href="${item.url}" download="${item.name}" class="px-4 py-2 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl hover:opacity-90 transition">
-                                ${t.downloadBtn || "Download"}
-                            </a>
-                        </div>
-                    </div>
-                `;
-                imagesList.insertAdjacentHTML('beforeend', itemHTML);
-            });
-        }
-
-        downloadAllBtn.addEventListener('click', async () => {
-            if (processedFilesData.length === 0) return;
-            const zip = new JSZip();
-            const folder = zip.folder("compressed_images");
-
-            processedFilesData.forEach((item) => {
-                folder.file(item.name, item.blob);
-            });
-
-            const content = await zip.generateAsync({ type: "blob" });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(content);
-            link.download = "ProImageCompress_Batch.zip";
-            link.click();
-        });
-
-        // Initialize default language on page load
-        setLanguage(currentLang);
-    </script>
-</body>
-</html>
+            },
+            ru: {
+                pageTitle: "Pro Image Compress - Профессиональный и безопасный компрессор изображений",
+                subHeaderBrand: "Самый быстрый и безопасный бесплатный компрессор изображений",
+                heroBadge: "🔒 100% Безопасная локальная обработка - Без загрузки на сервер",
+                heroTitle: "Умно сжимайте изображения без потери качества",
+                heroSubtitle: "Самый быстрый и безопасный инструмент в мире для пакетного сжатия сотен изображений без ограничений.",
+                dropTitle: "Перетащите изображения сюда или нажмите для выбора",
+                dropDesc: "Поддерживает PNG, JPG, JPEG, WebP, AVIF (Неограниченная пакетная обработка)",
+                selectBtnText: "Выбрать изображения",
+                qualityLabel: "Уровень качества:",
+                formatLabelText: "Целевой формат:",
+                optOriginal: "Как в исходном формате",
+                resizeLabelText: "Масштаб:",
+                optResize100: "100% (Оригинальный размер)",
+                optResize75: "75% (На 25% меньше)",
+                optResize50: "50% (Половина размера)",
+                optResize25: "25% (Четверть размера)",
+                resultsTitle: "Сжатые изображения:",
+                downloadAllText: "Скачать всё (ZIP)",
+                feat1Title: "100% Абсолютная конфиденциальность",
+                feat1Desc: "Обработка происходит полностью локально в вашем браузере. Изображения никогда не загружаются на сервер.",
+                feat2Title: "Мгновенно и без ограничений",
+                feat2Desc: "Сжимайте сотни изображений одновременно без очередей и лимитов.",
+                feat3Title: "Современные веб-форматы",
+                feat3Desc: "Полная поддержка конвертации в формат WebP для максимального уменьшения размера.",
+                footerText: "© 2026 ProImageCompress. Все права защищены. 100% Безопасная локальная обработка.",
+                savedBadge: "Сэкономлено",
+                downloadBtn: "Скачать"
+            },
+            ja: {
+                pageTitle: "Pro Image Compress - プロフェッショナルで安全な画像圧縮ツール",
+                subHeaderBrand: "最速・安全な無料画像圧縮ツール",
+                heroBadge: "🔒 100% 安全なローカル処理 - サーバーアップロードゼロ",
+                heroTitle: "品質を損なわずに画像をスマートに圧縮",
+                heroSubtitle: "広告や制限なしで何百もの画像を一括圧縮できる、世界最速かつ最も安全なツール。",
+                dropTitle: "画像をここにドラッグ＆ドロップ、またはクリックして選択",
+                dropDesc: "PNG、JPG、JPEG、WebP、AVIFに対応（一括処理無制限）",
+                selectBtnText: "画像を選択",
+                qualityLabel: "画質レベル:",
+                formatLabelText: "出力フォーマット:",
+                optOriginal: "元の形式と同じ",
+                resizeLabelText: "リサイズスケール:",
+                optResize100: "100%（元のサイズ）",
+                optResize75: "75%（25%縮小）",
+                optResize50: "50%（半分のサイズ）",
+                optResize25: "25%（4分の1のサイズ）",
+                resultsTitle: "圧縮された画像:",
+                downloadAllText: "すべてダウンロード（ZIP）",
+                feat1Title: "100% 完全なプライバシー",
+                feat1Desc: "処理はすべてブラウザ内でローカルに実行されます。画像がサーバーにアップロードされることはありません。",
+                feat2Title: "超高速＆無制限",
+                feat2Desc: "待ち時間やファイル数の制限なく、何百もの画像を同時に圧縮。",
+                feat3Title: "次世代ウェブフォーマット",
+                feat3Desc: "WebP形式への変換を完全サポートし、ファイルサイズを最大限に削減。",
+                footerText: "© 2026 ProImageCompress. 全著作権所有。100% 安全なローカル処理。",
+                savedBadge: "削減",
+                downloadBtn: "ダウンロード"
+            },
+            pt: {
+                pageTitle: "Pro Image Compress - Compressor de Imagens Profissional e Seguro",
+                subHeaderBrand: "O compressor de imagens gratuito mais rápido e seguro",
+                heroBadge: "🔒 Processamento Local 100% Seguro - Zero Upload para Servidores",
+                heroTitle: "Comprima suas imagens de forma inteligente sem perder qualidade",
+                heroSubtitle: "A ferramenta mais rápida e segura do mundo para comprimir centenas de imagens em lote sem restrições.",
+                dropTitle: "Arraste e solte suas imagens aqui, ou clique para navegar",
+                dropDesc: "Suporta PNG, JPG, JPEG, WebP, AVIF (Processamento em lote ilimitado)",
+                selectBtnText: "Selecionar Imagens",
+                qualityLabel: "Nível de Qualidade:",
+                formatLabelText: "Formato de Saída:",
+                optOriginal: "Mesmo formato original",
+                resizeLabelText: "Escala de Redimensionamento:",
+                optResize100: "100% (Dimensões Originais)",
+                optResize75: "75% (25% Menor

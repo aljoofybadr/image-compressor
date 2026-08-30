@@ -7,9 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبة JSZip لتحميل الكل -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <!-- المكتبة الجديدة الاحترافية لضغط الصور -->
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     
     <style>
@@ -26,24 +24,23 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* الحل الجذري لمشكلة القائمة المنسدلة في الجوال والكمبيوتر */
+        /* الحل الجذري والنهائي لمشكلة القائمة المنسدلة في الجوال */
         #langDropdownMenu {
-            /* التمركز في المنتصف افتراضياً للجوال لمنع الخروج عن الشاشة */
-            left: 50%;
-            transform: translateX(-50%);
+            max-width: 90vw; /* ضمان عدم تجاوز عرض الشاشة أبداً */
         }
-        @media (min-width: 641px) {
-            /* التعديل حسب الاتجاه لشاشات الكمبيوتر والتابلت */
-            html[dir="rtl"] #langDropdownMenu {
-                left: 0;
-                right: auto;
-                transform: none;
-            }
-            html[dir="ltr"] #langDropdownMenu {
-                right: 0;
-                left: auto;
-                transform: none;
-            }
+        
+        /* محاذاة لليسار عندما يكون الموقع باللغة العربية (RTL) لتتمدد للداخل */
+        html[dir="rtl"] #langDropdownMenu {
+            left: 0 !important;
+            right: auto !important;
+            transform: none !important;
+        }
+        
+        /* محاذاة لليمين عندما يكون الموقع باللغات الأجنبية (LTR) لتتمدد للداخل */
+        html[dir="ltr"] #langDropdownMenu {
+            right: 0 !important;
+            left: auto !important;
+            transform: none !important;
         }
     </style>
 </head>
@@ -509,7 +506,6 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
-        // الخوارزمية الجديدة لضغط الصور باستخدام مكتبة browser-image-compression
         async function processImage(file) {
             let qualityVal = parseInt(qualityRange.value) / 100;
             let format = formatSelect.value;
@@ -518,18 +514,16 @@
                 format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
             }
 
-            // إعدادات المكتبة الاحترافية
             const options = {
-                maxSizeMB: 50, // جعلناه عالياً لكي نعتمد كلياً على مؤشر الجودة بدلاً من الحجم الأقصى
+                maxSizeMB: 50,
                 useWebWorker: true,
                 fileType: format,
                 initialQuality: qualityVal,
-                alwaysKeepResolution: true // ضمان الحفاظ على دقة الأبعاد 100% لمنع البكسلة
+                alwaysKeepResolution: true 
             };
 
             const scale = parseFloat(resizeScale.value);
             
-            // إذا اختار المستخدم تصغير الأبعاد يدوياً
             if (scale !== 1) {
                 try {
                     const img = new Image();
@@ -537,7 +531,7 @@
                     await new Promise(r => { img.onload = r; });
                     const maxDim = Math.max(img.width, img.height);
                     options.maxWidthOrHeight = Math.round(maxDim * scale);
-                    options.alwaysKeepResolution = false; // السماح بالتصغير
+                    options.alwaysKeepResolution = false;
                     URL.revokeObjectURL(img.src);
                 } catch (e) {
                     console.error("Error calculating dimensions for resize:", e);
@@ -545,14 +539,12 @@
             }
 
             try {
-                // تنفيذ عملية الضغط
                 const compressedBlob = await imageCompression(file, options);
                 const originalSize = file.size;
                 const compressedSize = compressedBlob.size;
                 
                 const dataUrl = await imageCompression.getDataUrlFromFile(compressedBlob);
 
-                // في حال كانت الصورة الناتجة أكبر (يحدث أحياناً للصور الصغيرة جداً) ولم يتم تغيير الأبعاد أو الصيغة
                 if (compressedSize >= originalSize && formatSelect.value === 'original' && scale === 1) {
                     const origDataUrl = await imageCompression.getDataUrlFromFile(file);
                     storeProcessedItem(file, file, origDataUrl, originalSize);

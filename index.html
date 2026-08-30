@@ -6,7 +6,12 @@
     <title id="pageTitle">Pro Image Compress - Professional & Secure Image Compressor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبة JSZip لتحميل الكل -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- المكتبة الجديدة الاحترافية لضغط الصور -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
         body {
@@ -20,14 +25,25 @@
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* CSS Fix for Language Dropdown Positioning */
-        html[dir="rtl"] #langDropdownMenu {
-            right: auto;
-            left: 0;
+        
+        /* الحل الجذري لمشكلة القائمة المنسدلة في الجوال والكمبيوتر */
+        #langDropdownMenu {
+            /* التمركز في المنتصف افتراضياً للجوال لمنع الخروج عن الشاشة */
+            left: 50%;
+            transform: translateX(-50%);
         }
-        html[dir="ltr"] #langDropdownMenu {
-            left: auto;
-            right: 0;
+        @media (min-width: 641px) {
+            /* التعديل حسب الاتجاه لشاشات الكمبيوتر والتابلت */
+            html[dir="rtl"] #langDropdownMenu {
+                left: 0;
+                right: auto;
+                transform: none;
+            }
+            html[dir="ltr"] #langDropdownMenu {
+                right: 0;
+                left: auto;
+                transform: none;
+            }
         }
     </style>
 </head>
@@ -91,9 +107,9 @@
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold text-slate-300" id="qualityLabel">Quality Level:</label>
-                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">90%</span>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
                     </div>
-                    <input type="range" id="qualityRange" min="10" max="100" value="90" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                    <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
                 
                 <div>
@@ -493,65 +509,61 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
+        // الخوارزمية الجديدة لضغط الصور باستخدام مكتبة browser-image-compression
         async function processImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
+            let qualityVal = parseInt(qualityRange.value) / 100;
+            let format = formatSelect.value;
+            
+            if (format === 'original') {
+                format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
+            }
+
+            // إعدادات المكتبة الاحترافية
+            const options = {
+                maxSizeMB: 50, // جعلناه عالياً لكي نعتمد كلياً على مؤشر الجودة بدلاً من الحجم الأقصى
+                useWebWorker: true,
+                fileType: format,
+                initialQuality: qualityVal,
+                alwaysKeepResolution: true // ضمان الحفاظ على دقة الأبعاد 100% لمنع البكسلة
+            };
+
+            const scale = parseFloat(resizeScale.value);
+            
+            // إذا اختار المستخدم تصغير الأبعاد يدوياً
+            if (scale !== 1) {
+                try {
                     const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        
-                        const scale = parseFloat(resizeScale.value);
-                        canvas.width = Math.max(1, Math.round(img.width * scale));
-                        canvas.height = Math.max(1, Math.round(img.height * scale));
-                        
-                        // تفعيل أعلى خيارات النعومة لمنع البكسلة
-                        ctx.imageSmoothingEnabled = true;
-                        ctx.imageSmoothingQuality = 'high';
+                    img.src = URL.createObjectURL(file);
+                    await new Promise(r => { img.onload = r; });
+                    const maxDim = Math.max(img.width, img.height);
+                    options.maxWidthOrHeight = Math.round(maxDim * scale);
+                    options.alwaysKeepResolution = false; // السماح بالتصغير
+                    URL.revokeObjectURL(img.src);
+                } catch (e) {
+                    console.error("Error calculating dimensions for resize:", e);
+                }
+            }
 
-                        let format = formatSelect.value;
-                        if (format === 'original') {
-                            format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
-                        }
-                        
-                        // إضافة خلفية بيضاء عند اختيار صيغة JPG لمنع ظهور خلفية سوداء للصور الشفافة
-                        if (format === 'image/jpeg') {
-                            ctx.fillStyle = "#FFFFFF";
-                            ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        }
-                        
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            try {
+                // تنفيذ عملية الضغط
+                const compressedBlob = await imageCompression(file, options);
+                const originalSize = file.size;
+                const compressedSize = compressedBlob.size;
+                
+                const dataUrl = await imageCompression.getDataUrlFromFile(compressedBlob);
 
-                        // السماح بالحفاظ على جودة متناهية بناءً على المؤشر (لن يقل عن جودة معقولة)
-                        let quality = parseInt(qualityRange.value) / 100;
-                        if (quality < 0.1) quality = 0.1; 
-                        
-                        const compressedDataUrl = canvas.toDataURL(format, quality);
-                        
-                        fetch(compressedDataUrl)
-                            .then(res => res.blob())
-                            .then(blob => {
-                                let originalSize = file.size;
-                                let compressedSize = blob.size;
-
-                                // إذا كانت الصورة الناتجة أكبر، احتفظ بالأصلية تماماً
-                                if (compressedSize >= originalSize) {
-                                    storeProcessedItem(file, file, event.target.result, originalSize);
-                                } else {
-                                    storeProcessedItem(file, blob, compressedDataUrl, originalSize);
-                                }
-                                resolve();
-                            }).catch(() => {
-                                resolve();
-                            });
-                    };
-                    img.onerror = () => resolve();
-                };
-                reader.onerror = () => resolve();
-            });
+                // في حال كانت الصورة الناتجة أكبر (يحدث أحياناً للصور الصغيرة جداً) ولم يتم تغيير الأبعاد أو الصيغة
+                if (compressedSize >= originalSize && formatSelect.value === 'original' && scale === 1) {
+                    const origDataUrl = await imageCompression.getDataUrlFromFile(file);
+                    storeProcessedItem(file, file, origDataUrl, originalSize);
+                } else {
+                    storeProcessedItem(file, compressedBlob, dataUrl, originalSize);
+                }
+            } catch (error) {
+                console.error("Compression Error:", error);
+                const fallbackUrl = await imageCompression.getDataUrlFromFile(file);
+                storeProcessedItem(file, file, fallbackUrl, file.size);
+            }
         }
 
         function storeProcessedItem(file, blob, dataUrl, originalSize) {

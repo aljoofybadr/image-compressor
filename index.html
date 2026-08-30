@@ -24,23 +24,34 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* الحل الجذري والنهائي لمشكلة القائمة المنسدلة في الجوال */
+        /* خصائص القائمة المنسدلة الأساسية (تم إضافة z-index: 999) */
         #langDropdownMenu {
-            max-width: 90vw; /* ضمان عدم تجاوز عرض الشاشة أبداً */
+            z-index: 999 !important;
+            max-width: 90vw;
         }
-        
-        /* محاذاة لليسار عندما يكون الموقع باللغة العربية (RTL) لتتمدد للداخل */
-        html[dir="rtl"] #langDropdownMenu {
-            left: 0 !important;
-            right: auto !important;
-            transform: none !important;
+
+        /* تعديلات شاشات الجوال */
+        @media (max-width: 768px) {
+            html[dir="ltr"] #langDropdownMenu {
+                right: 0 !important;
+                left: auto !important;
+            }
+            html[dir="rtl"] #langDropdownMenu {
+                left: 0 !important;
+                right: auto !important;
+            }
         }
-        
-        /* محاذاة لليمين عندما يكون الموقع باللغات الأجنبية (LTR) لتتمدد للداخل */
-        html[dir="ltr"] #langDropdownMenu {
-            right: 0 !important;
-            left: auto !important;
-            transform: none !important;
+
+        /* تعديلات شاشات الكمبيوتر */
+        @media (min-width: 769px) {
+            html[dir="ltr"] #langDropdownMenu {
+                right: 0 !important;
+                left: auto !important;
+            }
+            html[dir="rtl"] #langDropdownMenu {
+                left: 0 !important;
+                right: auto !important;
+            }
         }
     </style>
 </head>
@@ -63,7 +74,7 @@
                 <span id="currentLangLabel">English</span>
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 ml-1"></i>
             </button>
-            <div id="langDropdownMenu" class="absolute mt-2 w-48 glass-card border border-slate-700 rounded-xl shadow-2xl hidden py-2 z-50">
+            <div id="langDropdownMenu" class="absolute mt-2 w-48 glass-card border border-slate-700 rounded-xl shadow-2xl hidden py-2">
                 <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition flex items-center justify-between"><span>English</span> <span class="text-[10px] text-slate-500">EN</span></button>
                 <button onclick="setLanguage('ar')" class="w-full text-right px-4 py-2 text-xs text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition flex items-center justify-between" dir="rtl"><span>العربية</span> <span class="text-[10px] text-slate-500">AR</span></button>
                 <button onclick="setLanguage('zh')" class="w-full text-left px-4 py-2 text-xs text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-400 transition flex items-center justify-between"><span>中文 (Chinese)</span> <span class="text-[10px] text-slate-500">ZH</span></button>

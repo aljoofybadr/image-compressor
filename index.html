@@ -23,13 +23,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* خصائص القائمة المنسدلة الأساسية */
         #langDropdownMenu {
             z-index: 999 !important;
             max-width: 90vw;
         }
 
-        /* تعديلات شاشات الجوال */
         @media (max-width: 768px) {
             html[dir="ltr"] #langDropdownMenu {
                 right: 0 !important;
@@ -41,7 +39,6 @@
             }
         }
 
-        /* تعديلات شاشات الكمبيوتر */
         @media (min-width: 769px) {
             html[dir="ltr"] #langDropdownMenu {
                 right: 0 !important;
@@ -114,15 +111,16 @@
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold text-slate-300" id="qualityLabel">Quality Level:</label>
-                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">88%</span>
                     </div>
-                    <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                    <input type="range" id="qualityRange" min="10" max="100" value="88" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
                 
                 <div>
                     <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabelText">Target Format:</label>
                     <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
                         <option value="original" id="optOriginal">Same as original format</option>
+                        <option value="image/avif" id="optAvif">AVIF (Next-Gen Ultra Quality)</option>
                         <option value="image/webp" id="optWebp">WebP (Best for Web)</option>
                         <option value="image/jpeg" id="optJpg">JPG (Universal Compatibility)</option>
                         <option value="image/png" id="optPng">PNG (High Quality / Transparent)</option>
@@ -171,7 +169,7 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 <h4 class="font-bold text-base mb-2" id="feat3Title">Next-Gen Web Formats</h4>
-                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">Full support for converting images to WebP format for maximum file size reduction.</p>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">Full support for converting images to AVIF and WebP formats for maximum file size reduction.</p>
             </div>
         </div>
 
@@ -196,6 +194,7 @@
                 qualityLabel: "Quality Level:",
                 formatLabelText: "Target Format:",
                 optOriginal: "Same as original format",
+                optAvif: "AVIF (Next-Gen Ultra Quality)",
                 optWebp: "WebP (Best for Web)",
                 optJpg: "JPG (Universal Compatibility)",
                 optPng: "PNG (High Quality / Transparent)",
@@ -211,7 +210,7 @@
                 feat2Title: "Lightning Fast & Unlimited",
                 feat2Desc: "Compress hundreds of images simultaneously with zero queue or file count limits.",
                 feat3Title: "Next-Gen Web Formats",
-                feat3Desc: "Full support for converting images to WebP format for maximum file size reduction.",
+                feat3Desc: "Full support for converting images to AVIF and WebP formats for maximum file size reduction.",
                 footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing.",
                 savedBadge: "Saved",
                 downloadBtn: "Download"
@@ -229,6 +228,7 @@
                 qualityLabel: "مستوى الجودة:",
                 formatLabelText: "الصيغة المستهدفة:",
                 optOriginal: "نفس الصيغة الأصلية",
+                optAvif: "AVIF (الجيل الجديد فائقة الجودة)",
                 optWebp: "WebP (الأفضل للويب)",
                 optJpg: "JPG (توافقية شاملة)",
                 optPng: "PNG (جودة عالية / شفافية)",
@@ -244,7 +244,7 @@
                 feat2Title: "سرعة خيالية وبدون قيود",
                 feat2Desc: "اضغط مئات الصور دفعة واحدة وبدون طابور انتظار أو حدود لعدد الملفات.",
                 feat3Title: "صيغ الويب الحديثة",
-                feat3Desc: "دعم كامل لتحويل الصور إلى صيغ WebP لتقليل الحجم لأقصى حد ممكن.",
+                feat3Desc: "دعم كامل لتحويل الصور إلى صيغ AVIF و WebP لتقليل الحجم لأقصى حد ممكن.",
                 footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.",
                 savedBadge: "وفرت",
                 downloadBtn: "تحميل"
@@ -252,4 +252,9 @@
             zh: {
                 nativeName: "中文",
                 pageTitle: "Pro Image Compress - 专业且安全的图像压缩工具",
-                subHeaderBrand: "最快、最安全的免费图像压缩器
+                subHeaderBrand: "最快、最安全的免费图像压缩器",
+                heroBadge: "🔒 100% 安全本地处理 - 零服务器上传",
+                heroTitle: "在不失真的情况下智能压缩您的图像",
+                heroSubtitle: "全球最快、最安全的工具，可批量压缩数百张图片，无任何限制。",
+                dropTitle: "将图片拖放到此处，或点击浏览",
+                dropDesc

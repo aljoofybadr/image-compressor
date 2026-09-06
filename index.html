@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- مكتبة لتحميل ملفات الـ ZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -24,13 +24,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* خصائص القائمة المنسدلة الأساسية (تم إضافة z-index: 999) */
         #langDropdownMenu {
             z-index: 999 !important;
             max-width: 90vw;
         }
 
-        /* تعديلات شاشات الجوال */
         @media (max-width: 768px) {
             html[dir="ltr"] #langDropdownMenu {
                 right: 0 !important;
@@ -42,7 +40,6 @@
             }
         }
 
-        /* تعديلات شاشات الكمبيوتر */
         @media (min-width: 769px) {
             html[dir="ltr"] #langDropdownMenu {
                 right: 0 !important;
@@ -115,15 +112,16 @@
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold text-slate-300" id="qualityLabel">Quality Level:</label>
-                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">80%</span>
+                        <span id="qualityVal" class="text-cyan-400 font-extrabold text-xs">88%</span>
                     </div>
-                    <input type="range" id="qualityRange" min="10" max="100" value="80" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                    <input type="range" id="qualityRange" min="10" max="100" value="88" class="w-full accent-cyan-400 bg-slate-800 rounded-lg h-2 cursor-pointer">
                 </div>
                 
                 <div>
                     <label class="text-xs font-bold text-slate-300 block mb-2" id="formatLabelText">Target Format:</label>
                     <select id="formatSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
                         <option value="original" id="optOriginal">Same as original format</option>
+                        <option value="image/avif" id="optAvif">AVIF (Next-Gen Ultra Quality)</option>
                         <option value="image/webp" id="optWebp">WebP (Best for Web)</option>
                         <option value="image/jpeg" id="optJpg">JPG (Universal Compatibility)</option>
                         <option value="image/png" id="optPng">PNG (High Quality / Transparent)</option>
@@ -172,7 +170,7 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 <h4 class="font-bold text-base mb-2" id="feat3Title">Next-Gen Web Formats</h4>
-                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">Full support for converting images to WebP format for maximum file size reduction.</p>
+                <p class="text-xs text-slate-400 leading-relaxed" id="feat3Desc">Full support for converting images to AVIF and WebP formats for maximum file size reduction.</p>
             </div>
         </div>
 
@@ -197,6 +195,7 @@
                 qualityLabel: "Quality Level:",
                 formatLabelText: "Target Format:",
                 optOriginal: "Same as original format",
+                optAvif: "AVIF (Next-Gen Ultra Quality)",
                 optWebp: "WebP (Best for Web)",
                 optJpg: "JPG (Universal Compatibility)",
                 optPng: "PNG (High Quality / Transparent)",
@@ -212,7 +211,7 @@
                 feat2Title: "Lightning Fast & Unlimited",
                 feat2Desc: "Compress hundreds of images simultaneously with zero queue or file count limits.",
                 feat3Title: "Next-Gen Web Formats",
-                feat3Desc: "Full support for converting images to WebP format for maximum file size reduction.",
+                feat3Desc: "Full support for converting images to AVIF and WebP formats for maximum file size reduction.",
                 footerText: "© 2026 ProImageCompress. All rights reserved. 100% Secure Local Processing.",
                 savedBadge: "Saved",
                 downloadBtn: "Download"
@@ -230,6 +229,7 @@
                 qualityLabel: "مستوى الجودة:",
                 formatLabelText: "الصيغة المستهدفة:",
                 optOriginal: "نفس الصيغة الأصلية",
+                optAvif: "AVIF (الجيل الجديد فائقة الجودة)",
                 optWebp: "WebP (الأفضل للويب)",
                 optJpg: "JPG (توافقية شاملة)",
                 optPng: "PNG (جودة عالية / شفافية)",
@@ -245,7 +245,7 @@
                 feat2Title: "سرعة خيالية وبدون قيود",
                 feat2Desc: "اضغط مئات الصور دفعة واحدة وبدون طابور انتظار أو حدود لعدد الملفات.",
                 feat3Title: "صيغ الويب الحديثة",
-                feat3Desc: "دعم كامل لتحويل الصور إلى صيغ WebP لتقليل الحجم لأقصى حد ممكن.",
+                feat3Desc: "دعم كامل لتحويل الصور إلى صيغ AVIF و WebP لتقليل الحجم لأقصى حد ممكن.",
                 footerText: "© 2026 ProImageCompress. جميع الحقوق محفوظة. معالجة محلية آمنة 100%.",
                 savedBadge: "وفرت",
                 downloadBtn: "تحميل"
@@ -263,6 +263,7 @@
                 qualityLabel: "质量级别:",
                 formatLabelText: "目标格式:",
                 optOriginal: "与原始格式相同",
+                optAvif: "AVIF (新一代超高画质)",
                 optWebp: "WebP (网页最佳)",
                 optJpg: "JPG (通用兼容)",
                 optPng: "PNG (高质量 / 透明)",
@@ -278,7 +279,7 @@
                 feat2Title: "闪电般快速且无限制",
                 feat2Desc: "同时压缩数百张图片，没有排队或文件数量限制。",
                 feat3Title: "新一代网络格式",
-                feat3Desc: "全面支持转换为 WebP 格式，以实现最大的文件大小缩减。",
+                feat3Desc: "全面支持转换为 AVIF 和 WebP 格式，以实现最大的文件大小缩减。",
                 footerText: "© 2026 ProImageCompress. 保留所有权利。100% 安全本地处理。",
                 savedBadge: "已节省",
                 downloadBtn: "下载"
@@ -296,6 +297,7 @@
                 qualityLabel: "Nivel de calidad:",
                 formatLabelText: "Formato de salida:",
                 optOriginal: "Igual que el formato original",
+                optAvif: "AVIF (Calidad Ultra de Nueva Generación)",
                 optWebp: "WebP (Mejor para Web)",
                 optJpg: "JPG (Compatibilidad universal)",
                 optPng: "PNG (Alta calidad / Transparente)",
@@ -311,7 +313,7 @@
                 feat2Title: "Ultra rápido e ilimitado",
                 feat2Desc: "Comprime cientos de imágenes simultáneamente sin colas ni límites.",
                 feat3Title: "Formatos web modernos",
-                feat3Desc: "Soporte completo para convertir a WebP para una reducción máxima del tamaño.",
+                feat3Desc: "Soporte completo para convertir a formatos AVIF y WebP para una reducción máxima.",
                 footerText: "© 2026 ProImageCompress. Todos los derechos reservados.",
                 savedBadge: "Ahorro",
                 downloadBtn: "Descargar"
@@ -329,6 +331,7 @@
                 qualityLabel: "Niveau de qualité :",
                 formatLabelText: "Format cible :",
                 optOriginal: "Identique au format d'origine",
+                optAvif: "AVIF (Ultra Qualité Nouvelle Génération)",
                 optWebp: "WebP (Idéal pour le Web)",
                 optJpg: "JPG (Compatibilité universelle)",
                 optPng: "PNG (Haute qualité / Transparent)",
@@ -344,7 +347,7 @@
                 feat2Title: "Ultra rapide et illimité",
                 feat2Desc: "Compressez des centaines d'images simultanément sans file d'attente.",
                 feat3Title: "Formats Web nouvelle génération",
-                feat3Desc: "Prise en charge complète de la conversion au format WebP.",
+                feat3Desc: "Prise en charge complète de la conversion aux formats AVIF et WebP.",
                 footerText: "© 2026 ProImageCompress. Tous droits réservés.",
                 savedBadge: "Économisé",
                 downloadBtn: "Télécharger"
@@ -362,6 +365,7 @@
                 qualityLabel: "Qualitätsstufe:",
                 formatLabelText: "Zielformat:",
                 optOriginal: "Wie Originalformat",
+                optAvif: "AVIF (Next-Gen Ultra Qualität)",
                 optWebp: "WebP (Bestens für Web)",
                 optJpg: "JPG (Universelle Kompatibilität)",
                 optPng: "PNG (Hohe Qualität / Transparent)",
@@ -377,7 +381,7 @@
                 feat2Title: "Blitzschnell & Unbegrenzt",
                 feat2Desc: "Komprimieren Sie Hunderte von Bildern gleichzeitig ohne Limits.",
                 feat3Title: "Web-Formate der nächsten Generation",
-                feat3Desc: "Volle Unterstützung für die Konvertierung in das WebP-Format.",
+                feat3Desc: "Volle Unterstützung für die Konvertierung in AVIF- und WebP-Formate.",
                 footerText: "© 2026 ProImageCompress. Alle Rechte vorbehalten.",
                 savedBadge: "Gespart",
                 downloadBtn: "Herunterladen"
@@ -395,6 +399,7 @@
                 qualityLabel: "Kalite Seviyesi:",
                 formatLabelText: "Hedef Format:",
                 optOriginal: "Orijinal format ile aynı",
+                optAvif: "AVIF (Yeni Nesil Ultra Kalite)",
                 optWebp: "WebP (Web için en iyisi)",
                 optJpg: "JPG (Evrensel Uyumluluk)",
                 optPng: "PNG (Yüksek Kalite / Şeffaf)",
@@ -410,7 +415,7 @@
                 feat2Title: "Yıldırım Hızında ve Sınırsız",
                 feat2Desc: "Sıfır bekleme kuyruğu veya dosya sınırı ile yüzlerce resmi aynı anda sıkıştırın.",
                 feat3Title: "Yeni Nesil Web Formatları",
-                feat3Desc: "Maksimum dosya boyutu azaltma için WebP formatına tam dönüştürmه desteği.",
+                feat3Desc: "AVIF ve WebP formatlarına tam dönüştürmه desteği ile maksimum boyut azaltımı.",
                 footerText: "© 2026 ProImageCompress. Tüm hakları saklıdır. %100 Güvenli Yerel İşlem.",
                 savedBadge: "Tasarruf",
                 downloadBtn: "İndir"
@@ -517,69 +522,88 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
+        // محرك المعالجة الفائق الاحترافي بالاعتماد على Canvas النقي مع دعم صيغة AVIF الحديثة
         async function processImage(file) {
-            let qualityVal = parseInt(qualityRange.value) / 100;
-            let format = formatSelect.value;
-            
-            if (format === 'original') {
-                format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
-            }
-
-            const options = {
-                maxSizeMB: 50,
-                useWebWorker: true,
-                fileType: format,
-                initialQuality: qualityVal,
-                alwaysKeepResolution: true 
-            };
-
-            const scale = parseFloat(resizeScale.value);
-            
-            if (scale !== 1) {
-                try {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
                     const img = new Image();
-                    img.src = URL.createObjectURL(file);
-                    await new Promise(r => { img.onload = r; });
-                    const maxDim = Math.max(img.width, img.height);
-                    options.maxWidthOrHeight = Math.round(maxDim * scale);
-                    options.alwaysKeepResolution = false;
-                    URL.revokeObjectURL(img.src);
-                } catch (e) {
-                    console.error("Error calculating dimensions for resize:", e);
-                }
-            }
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        const scale = parseFloat(resizeScale.value);
+                        canvas.width = Math.max(1, Math.round(img.width * scale));
+                        canvas.height = Math.max(1, Math.round(img.height * scale));
+                        
+                        // تفعيل أعلى معايير النعومة لمنع البكسلة والتشويش نهائياً
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
 
-            try {
-                const compressedBlob = await imageCompression(file, options);
-                const originalSize = file.size;
-                const compressedSize = compressedBlob.size;
-                
-                const dataUrl = await imageCompression.getDataUrlFromFile(compressedBlob);
+                        let format = formatSelect.value;
+                        if (format === 'original') {
+                            format = file.type && file.type.includes('image/') ? file.type : 'image/jpeg';
+                        }
+                        
+                        // معالجة الخلفيات الشفافة عند التصدير بصيغة JPG لتجنب الخلفية السوداء
+                        if (format === 'image/jpeg') {
+                            ctx.fillStyle = "#FFFFFF";
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        }
+                        
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                if (compressedSize >= originalSize && formatSelect.value === 'original' && scale === 1) {
-                    const origDataUrl = await imageCompression.getDataUrlFromFile(file);
-                    storeProcessedItem(file, file, origDataUrl, originalSize);
-                } else {
-                    storeProcessedItem(file, compressedBlob, dataUrl, originalSize);
-                }
-            } catch (error) {
-                console.error("Compression Error:", error);
-                const fallbackUrl = await imageCompression.getDataUrlFromFile(file);
-                storeProcessedItem(file, file, fallbackUrl, file.size);
-            }
+                        let quality = parseInt(qualityRange.value) / 100;
+                        if (quality < 0.1) quality = 0.1;
+
+                        // التحقق من دعم المتصفح لصيغة AVIF، وإذا لم تكن مدعومة يتم التحويل لـ WebP تلقائياً
+                        let targetMime = format;
+                        if (targetMime === 'image/avif') {
+                            // فحص دعم المتصفح لـ avif عبر canvas
+                            const supportsAvif = canvas.toDataURL('image/avif').indexOf('data:image/avif') === 0;
+                            if (!supportsAvif) {
+                                targetMime = 'image/webp'; // Fallback آمن
+                            }
+                        }
+
+                        const compressedDataUrl = canvas.toDataURL(targetMime, quality);
+                        
+                        fetch(compressedDataUrl)
+                            .then(res => res.blob())
+                            .then(blob => {
+                                let originalSize = file.size;
+                                let compressedSize = blob.size;
+
+                                // إذا كانت الصورة الناتجة أكبر حجماً من الأصلية، يتم الاحتفاظ بالأصلية حفاظاً على الجودة
+                                if (compressedSize >= originalSize && formatSelect.value === 'original' && scale === 1) {
+                                    storeProcessedItem(file, file, event.target.result, originalSize, formatSelect.value);
+                                } else {
+                                    storeProcessedItem(file, blob, compressedDataUrl, originalSize, targetMime);
+                                }
+                                resolve();
+                            }).catch(() => {
+                                resolve();
+                            });
+                    };
+                    img.onerror = () => resolve();
+                };
+                reader.onerror = () => resolve();
+            });
         }
 
-        function storeProcessedItem(file, blob, dataUrl, originalSize) {
+        function storeProcessedItem(file, blob, dataUrl, originalSize, mimeType) {
             const compressedSize = blob.size;
             let savings = ((1 - compressedSize / originalSize) * 100).toFixed(1);
             if (savings < 0) savings = "0.0";
 
             let ext = '.jpg';
-            let currentFormat = formatSelect.value;
-            if (currentFormat === 'image/webp') ext = '.webp';
-            else if (currentFormat === 'image/jpeg') ext = '.jpg';
-            else if (currentFormat === 'image/png') ext = '.png';
-            else if (currentFormat === 'original') {
+            if (mimeType === 'image/avif') ext = '.avif';
+            else if (mimeType === 'image/webp') ext = '.webp';
+            else if (mimeType === 'image/jpeg') ext = '.jpg';
+            else if (mimeType === 'image/png') ext = '.png';
+            else if (formatSelect.value === 'original') {
                 const origExt = file.name.substring(file.name.lastIndexOf('.'));
                 ext = origExt ? origExt : '.jpg';
             }
